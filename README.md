@@ -23,6 +23,8 @@ Then I am presented with my last 5 creations
 
 ## Wireframe
 
+![Wireframe](./assets/images/screenshot.png)
+
 ## APIs
 
 Youtube & Giphy
