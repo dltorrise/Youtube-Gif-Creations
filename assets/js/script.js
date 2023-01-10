@@ -3,6 +3,8 @@ giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
 var getVideoBtn = document.getElementById("video-form")
 var getGifBtn = document.getElementById("gif-form")
+var getCreateVideoBtn = document.getElementById()
+var getPreviousVideoBtn = document.getElementById()
 
 var videoInput = document.getElementById("video")
 var gifInput = document.getElementById("gif")
@@ -53,6 +55,19 @@ function gifSearchSubmit(event) {
     }
 }
 
+// create video local storage 
+function createVideo() {
+localStorage.getItem('gif');
+localStorage.getItem('video');
+JSON.parse(localStorage.getItem('gif'))
+JSON.parse(localStorage.getItem('video'))
+}
+
+//previous video button storage
+function previousVideo() {
+
+}
+
 //event listener for video button 
 
 getVideoBtn.addEventListener("submit", videoSearchSubmit) //button inside of form needs to be submit
@@ -60,6 +75,14 @@ getVideoBtn.addEventListener("submit", videoSearchSubmit) //button inside of for
 //event listener for gif button
 
 getGifBtn.addEventListener("submit", gifSearchSubmit)
+
+//event listener for create video button
+
+getCreateVideoBtn.addEventListener("submit",createVideo)
+
+//event listener for previous videos button
+
+getPreviousVideoBtn.addEventListener("submit",previousVideo)
 
 // put an attribute on search results and then do event.target to determine
 // which one, look at 6.21
