@@ -19,6 +19,7 @@
            <input name="video" id="video" type="text" autofocus="true" class="form-input" />
            <button id="get-video" type="submit" class="btn">Find Video</button>
         </form>
+        <div id="video-results"></div>
      </div>
       <div class="card">
         <h3 class="card-header text-uppercase">Search Gif</h3>
@@ -27,6 +28,7 @@
            <input name="gif" id="gif" type="text" autofocus="true" class="form-input" />
            <button id="get-gif" type="submit" class="btn">Find Gif</button>
         </form>
+        <div id="gif-results"></div>
         <script>document.getElementById("gif-results").innerHTML="";</script>
      </div>
      
@@ -34,16 +36,15 @@
         <h3 class="card-header text-uppercase">Your Videos</h3>
         <form id="video-form" class="card-body">
            <label class="form-label" for="Your Videos">Video</label>
-           <input name="video" id="gif" type="text" autofocus="true" class="form-input" />
+           <div name="video" id="your-video" class="your-video"></div>
            <button id="get-video" type="submit" class="btn">Create Video</button>
         </form>
+        <form id="video-form" class="card-body">
+         <label class="form-label" for="Previous Videos"></label>
+         <button id="get-video" type="submit" class="btn"> Previous Videos</button>
+     </form>
         <script> document.getElementById("video-results").innerHTML= "";</script>
      </div>
-     <div id="video-results"></div>
-     <div id="gif-results"></div>
-    <form id="video-form" class="card-body">
-        <label class="form-label" for="Previous Videos"></label>
-        <button id="get-video" type="submit" class="btn"> Previous Videos</button>
-    </form>
+
 </body>
 </html>
