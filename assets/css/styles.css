@@ -1,0 +1,141 @@
+:root {
+    --dark: #1d1135;
+    --light: #fcfbfe;
+    --lightpurple: #7649fe;
+    --purple: #5643fd;
+    --blue: #0c164f;
+    --border-radius: 0.3rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark);
+    margin: 0;
+    padding: 0;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--lightpurple);
+    font-size: 16px;
+}
+
+/* header */
+
+.hero {
+    padding: 3% 4%;
+    background-color: var(--blue);
+}
+
+.hero h1 {
+    text-align: center;
+}
+
+.hero p {
+    text-align: center;
+    color: var(--light);
+    font-size: 1.2rem;
+}
+
+/* search divs */
+
+.card-video {
+    text-align: center;
+}
+
+.card-gif {
+    text-align: center;
+    
+}
+
+input {
+    display: block;
+    margin: 0 auto;
+}
+
+#user-form {
+    text-align: center;
+}
+
+/* buttons */
+
+.find-btn,
+.gif-btn
+ {
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 14px 34px;
+    margin: 16px 16px 16px 20px;
+    text-align: center;
+    border-radius: var(--border-radius);
+    color: var(--light);
+    border: none;
+    outline: none;
+    background-color: var(--purple);
+    box-shadow: 3px 3px var(--light);
+    transform: translate(-1px, -1px);
+    display: inline-block;
+    vertical-align: top;
+}
+
+.create-btn {
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 14px 34px;
+    margin: 3;
+    text-align: center;
+    border-radius: var(--border-radius);
+    color: var(--light);
+    border: none;
+    outline: none;
+    background-color: var(--purple);
+    box-shadow: 3px 3px var(--light);
+    transform: translate(-1px, -1px);
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    top: 800px;
+    right: 0;
+}
+
+.btn:hover {
+    color: var(--lightpurple);
+    background-color: var(--blue);
+    transform: translate(0, 0);
+    box-shadow: 2px 2px var(--blue);
+    cursor: pointer;
+}
+
+/* video container */
+
+.video-container {
+    width: 600px;
+    height: 400px;
+    display: inline-block;
+    background-color: var(--purple);
+    border: 1px solid #ccc;
+    position: absolute;
+    bottom: 5;
+    left: 50%;
+    transform: translate(-50%);
+  }
+  
+/* possible list of videos
+.list-group {
+    padding: 0;
+    list-style: none;
+}
+
+.list-item {
+    margin-bottom: 10px;
+    padding: 1.5%;
+    border-radius: var(--border-radius);
+    background-color: var(--blue);
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.list-item:hover {
+    background-color: var(--purple);
+}
+*/
