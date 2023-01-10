@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Project 1</title>
+    <title>Youtube GIF Creations</title>
 </head>
 <body>
     <div class="card">
@@ -25,5 +25,42 @@
         </form>
      </div>
     <script src="./assets/js/script.js"></script>
+    <header>
+        <h1 class="text-center">Youtube GIF Creations</h1>
+    </header>
+    <div class="card">
+        <h3 class="card-header text-uppercase">Search Video</h3>
+        <form id="video-form" class="card-body">
+           <label class="form-label" for="video">Video</label>
+           <input name="video" id="video" type="text" autofocus="true" class="form-input" />
+           <button id="get-video" type="submit" class="btn">Find Video</button>
+        </form>
+        <div id="video-results"></div>
+     </div>
+      <div class="card">
+        <h3 class="card-header text-uppercase">Search Gif</h3>
+        <form id="GIF-form" class="card-body">
+           <label class="form-label" for="gif">Gif</label>
+           <input name="gif" id="gif" type="text" autofocus="true" class="form-input" />
+           <button id="get-gif" type="submit" class="btn">Find Gif</button>
+        </form>
+        <div id="gif-results"></div>
+        <script>document.getElementById("gif-results").innerHTML="";</script>
+     </div>
+     
+     <div class="card">
+        <h3 class="card-header text-uppercase">Your Videos</h3>
+        <form id="video-form" class="card-body">
+           <label class="form-label" for="Your Videos">Video</label>
+           <div name="video" id="your-video" class="your-video"></div>
+           <button id="get-video" type="submit" class="btn">Create Video</button>
+        </form>
+        <form id="video-form" class="card-body">
+         <label class="form-label" for="Previous Videos"></label>
+         <button id="get-video" type="submit" class="btn"> Previous Videos</button>
+     </form>
+        <script> document.getElementById("video-results").innerHTML= "";</script>
+     </div>
+
 </body>
 </html>
