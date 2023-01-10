@@ -7,11 +7,32 @@ var getGifBtn = document.getElementById("gif-form")
 var videoInput = document.getElementById("video")
 var gifInput = document.getElementById("gif")
 
+var videoSearchResults = document.getElementById("video-results")
+
 
 // function to fetch youtube api
 
-function getVideo(video) {
-    console.log(video)
+function getVideo(search) {
+    console.log(search)
+    search = encodeURIComponent(search) //converts it so that website will take it
+    var videoResults = `https://youtube.googleapis.com/youtube/v3/search?q=${search}&key=${youTubeAPIKey}`
+    fetch(videoResults) //returns response
+    .then(function (response) {
+        return response.json()
+    
+    }) .then(function (data) {
+
+        console.log(data)
+        var nameOfVideo = document.createElement('h6')
+            //var thumbNail = document.createElement('img')
+        nameOfVideo.textContent = data.items.etag
+        
+
+
+
+        })
+                
+
  }
 
  // function to fetch gif api
@@ -33,7 +54,7 @@ function videoSearchSubmit(event) {
     } else {
         var video = videoInput.value.trim() //searchInput is an HTML element and so .value is input
         //.trim bc white space can sometimes mess up databases
-        getVideo(video) //calls function as city as parameter
+        getVideo(search) //calls function as city as parameter
         videoInput.value = '' //clears search box by creating empty string
     }
 }
@@ -56,6 +77,7 @@ function gifSearchSubmit(event) {
 //event listener for video button 
 
 getVideoBtn.addEventListener("submit", videoSearchSubmit) //button inside of form needs to be submit
+
 
 //event listener for gif button
 
