@@ -14,8 +14,9 @@ var videoSearchResults = document.getElementById("video-results")
 
 function getVideo(search) {
     console.log(search)
+    videoSearchResults.textContent = '' //clear out all text content
     search = encodeURIComponent(search) //converts it so that website will take it
-    var videoResults = `https://youtube.googleapis.com/youtube/v3/search?q=${search}&key=${youTubeAPIKey}`
+    var videoResults = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${youTubeAPIKey}`
     fetch(videoResults) //returns response
     .then(function (response) {
         return response.json()
@@ -23,9 +24,20 @@ function getVideo(search) {
     }) .then(function (data) {
 
         console.log(data)
-        var nameOfVideo = document.createElement('h6')
             //var thumbNail = document.createElement('img')
-        nameOfVideo.textContent = data.items.etag
+            for (var i = 0; i < data.items.length; i++) {
+                //Creating a h3 element and a p element
+                var nameOfVideo = document.createElement('h6');
+        
+                //Setting the text of the h3 element and p element.
+                nameOfVideo.textContent = data.items[i].snippet.title
+                videoSearchResults.appendChild(nameOfVideo)
+                
+        
+                //Appending the dynamically generated html to the div associated with the id="users"
+                //Append will attach the element as the bottom most child.
+                
+              }
         
 
 
