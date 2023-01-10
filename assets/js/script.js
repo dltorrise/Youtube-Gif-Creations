@@ -28,10 +28,13 @@ function getVideo(search) {
             for (var i = 0; i < data.items.length; i++) {
                 //Creating a h3 element and a p element
                 var nameOfVideo = document.createElement('h6');
+                var thumbNail = document.createElement('img')
         
                 //Setting the text of the h3 element and p element.
                 nameOfVideo.textContent = data.items[i].snippet.title
+                thumbNail.src = data.items[i].snippet.thumbnails.default.url
                 videoSearchResults.appendChild(nameOfVideo)
+                videoSearchResults.appendChild(thumbNail)
                 
         
                 //Appending the dynamically generated html to the div associated with the id="users"
