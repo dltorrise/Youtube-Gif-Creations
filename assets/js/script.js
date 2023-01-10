@@ -54,7 +54,7 @@ function videoSearchSubmit(event) {
     } else {
         var video = videoInput.value.trim() //searchInput is an HTML element and so .value is input
         //.trim bc white space can sometimes mess up databases
-        getVideo(search) //calls function as city as parameter
+        getVideo(video) //calls function as city as parameter
         videoInput.value = '' //clears search box by creating empty string
     }
 }
