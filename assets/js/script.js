@@ -9,17 +9,88 @@ var getPreviousVideoBtn = document.getElementById()
 var videoInput = document.getElementById("video")
 var gifInput = document.getElementById("gif")
 
+var videoSearchResults = document.getElementById("video-results")
+var gifSearchResults = document.getElementById("gif-results")
+
 
 // function to fetch youtube api
 
-function getVideo(video) {
-    console.log(video)
+function getVideo(search) {
+    console.log(search)
+    videoSearchResults.textContent = '' //clear out all text content
+    search = encodeURIComponent(search) //converts it so that website will take it
+    var videoResults = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${search}&key=${youTubeAPIKey}`
+    fetch(videoResults) //returns response
+    .then(function (response) {
+        return response.json()
+    
+    }) .then(function (data) {
+
+        console.log(data)
+            //var thumbNail = document.createElement('img')
+            for (var i = 0; i < data.items.length; i++) {
+                //Creating a h3 element and a p element
+                var nameOfVideo = document.createElement('h6');
+                var thumbNail = document.createElement('img')
+        
+                //Setting the text of the h3 element and p element.
+                nameOfVideo.textContent = data.items[i].snippet.title
+                thumbNail.src = data.items[i].snippet.thumbnails.default.url
+                videoSearchResults.appendChild(nameOfVideo)
+                videoSearchResults.appendChild(thumbNail)
+                
+        
+                //Appending the dynamically generated html to the div associated with the id="users"
+                //Append will attach the element as the bottom most child.
+                
+              }
+        
+
+
+
+        })
+                
+
  }
 
  // function to fetch gif api
 
  function getGif(gif) {
     console.log(gif)
+    gifSearchResults.textContent = '' //clear out all text content
+    gif = encodeURIComponent(gif) //converts it so that website will take it
+    var gifResults = `api.giphy.com/v1/gifs/search?q=${gif}&key-${giphyAPIKey}`
+    fetch(gif) //returns response
+    .then(function (response) {
+        return response.json()
+    
+    }) .then(function (data) {
+
+        console.log(data)
+            // //var thumbNail = document.createElement('img')
+            // for (var i = 0; i < data.items.length; i++) {
+            //     //Creating a h3 element and a p element
+            //     var nameOfVideo = document.createElement('h6');
+            //     var thumbNail = document.createElement('img')
+        
+            //     //Setting the text of the h3 element and p element.
+            //     nameOfVideo.textContent = data.items[i].snippet.title
+            //     thumbNail.src = data.items[i].snippet.thumbnails.default.url
+            //     videoSearchResults.appendChild(nameOfVideo)
+            //     videoSearchResults.appendChild(thumbNail)
+                
+        
+            //     //Appending the dynamically generated html to the div associated with the id="users"
+            //     //Append will attach the element as the bottom most child.
+                
+            //   }
+        
+
+
+
+        })
+                
+
  }
 
 
@@ -35,7 +106,7 @@ function videoSearchSubmit(event) {
     } else {
         var video = videoInput.value.trim() //searchInput is an HTML element and so .value is input
         //.trim bc white space can sometimes mess up databases
-        getVideo(video) //calls function as city as parameter
+        getVideo(video) //calls function as video as parameter
         videoInput.value = '' //clears search box by creating empty string
     }
 }
@@ -50,7 +121,7 @@ function gifSearchSubmit(event) {
     } else {
         var gif = gifInput.value.trim() //searchInput is an HTML element and so .value is input
         //.trim bc white space can sometimes mess up databases
-        getGif(gif) //calls function as city as parameter
+        getGif(gif) //calls function with gif as parameter
         gifInput.value = '' //clears search box by creating empty string
     }
 }
@@ -71,6 +142,7 @@ function previousVideo() {
 //event listener for video button 
 
 getVideoBtn.addEventListener("submit", videoSearchSubmit) //button inside of form needs to be submit
+
 
 //event listener for gif button
 
