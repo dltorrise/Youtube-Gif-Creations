@@ -1,16 +1,37 @@
+//API Keys
+
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
+//DOM Elements
+
 var getVideoBtn = document.getElementById("video-form")
 var getGifBtn = document.getElementById("gif-form")
-var getCreateVideoBtn = document.getElementById()
-var getPreviousVideoBtn = document.getElementById()
+var getCreateVideoBtn = document.getElementById("create-video")
+var getPreviousVideoBtn = document.getElementById("previous-video")
 
 var videoInput = document.getElementById("video")
 var gifInput = document.getElementById("gif")
 
 var videoSearchResults = document.getElementById("video-results")
 var gifSearchResults = document.getElementById("gif-results")
+var previousVideoResults = document.getElementById("previous-results")
+
+//variables
+
+let pastGifPicks = JSON.parse(localStorage.getItem("gifPicks")) //makes an array
+
+if (pastGifPicks===null) {
+    pastGifPicks = [] //makes sure we only create an empty array if nothing is there
+}
+
+let pastVideoPicks = JSON.parse(localStorage.getItem("videoPicks")) //makes an array
+
+if (pastVideoPicks===null) {
+    pastVideoPicks = [] //makes sure we only create an empty array if nothing is there
+}
+
+
 
 
 // function to fetch youtube api
@@ -42,6 +63,9 @@ function getVideo(search) {
         
                 //Appending the dynamically generated html to the div associated with the id="users"
                 //Append will attach the element as the bottom most child.
+
+                //local storage - push value of chosen video onto array
+                
                 
               }
         
@@ -84,6 +108,8 @@ function getVideo(search) {
             //     //Append will attach the element as the bottom most child.
                 
             //   }
+            //local storage - push value of chosen gif onto array
+
         
 
 
@@ -128,15 +154,30 @@ function gifSearchSubmit(event) {
 
 // create video local storage 
 function createVideo() {
-localStorage.getItem('gif');
-localStorage.getItem('video');
-JSON.parse(localStorage.getItem('gif'))
-JSON.parse(localStorage.getItem('video'))
+    //but at some point we also need to push chosen value onto these arrays in other functions
+    localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
+    localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
 }
 
 //previous video button storage
 function previousVideo() {
-
+    previousVideoResults.textContent = "Last 5 Videos"
+    previousVideoResults.classList.add("h5", ".text-primary")
+    var listOfVideos = document.createElement('ul') //creates box for list
+    previousVideoResults.appendChild(listOfVideos) //appends it to search container
+    for (i=0; i<5; i++) { //actually doesn't matter which array we use bc they should store same amount
+        if (pastGifPicks.length>5) {
+          pastGifPicks.shift() //removes first element  
+          pastVideoPicks.shift()
+        }
+        var pastVideo = document.createElement('li')
+        pastVideo.classList.add("list-group-item")
+        pastVideo.addEventListener("click", buttonClickHandler)
+        pastVideo.textContent = histoire[i]
+        pastVideo.setAttribute('data-city', histoire[i])
+        console.log(pastVideo.getAttribute('data-city'))
+        listOfCities.appendChild(pastVideo)
+    }
 }
 
 //event listener for video button 
