@@ -84,7 +84,7 @@ function getVideo(search) {
     gifSearchResults.textContent = '' //clear out all text content
     gif = encodeURIComponent(gif) //converts it so that website will take it
     var gifResults = `api.giphy.com/v1/gifs/search?q=${gif}&key-${giphyAPIKey}`
-    fetch(gif) //returns response
+    fetch(gifResults) //returns response
     .then(function (response) {
         return response.json()
     
