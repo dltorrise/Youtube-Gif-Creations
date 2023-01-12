@@ -78,36 +78,35 @@ function getVideo(search) {
  }
 
  // function to fetch gif api
+ var gifData = {};
 
  function getGif(gif) {
     console.log(gif)
     gifSearchResults.textContent = '' //clear out all text content
     gif = encodeURIComponent(gif) //converts it so that website will take it
-    var gifResults = `api.giphy.com/v1/gifs/search?q=${gif}&key-${giphyAPIKey}`
+    var gifResults = `https://api.giphy.com/v1/gifs/search?q=${gif}&key=${giphyAPIKey}`
     fetch(gifResults) //returns response
     .then(function (response) {
         return response.json()
     
     }) .then(function (data) {
-
-        console.log(data)
-            // //var thumbNail = document.createElement('img')
-            // for (var i = 0; i < data.items.length; i++) {
-            //     //Creating a h3 element and a p element
-            //     var nameOfVideo = document.createElement('h6');
-            //     var thumbNail = document.createElement('img')
-        
-            //     //Setting the text of the h3 element and p element.
-            //     nameOfVideo.textContent = data.items[i].snippet.title
-            //     thumbNail.src = data.items[i].snippet.thumbnails.default.url
-            //     videoSearchResults.appendChild(nameOfVideo)
-            //     videoSearchResults.appendChild(thumbNail)
+        gifData = data;
+        console.log(data);
+            //var thumbNail = document.createElement('img')
+            for (var i = 0; i < 5; i++) {
+                //Creating a h3 element and a p element
+                var gif = document.createElement('img');
+                //Setting the text of the h3 element and p element.
+                console.log()
+                gif.src = gifData.data[i].images.fixed_height_small.url
+                console.log(gif.src)
+                gifSearchResults.appendChild(gif)
                 
         
-            //     //Appending the dynamically generated html to the div associated with the id="users"
-            //     //Append will attach the element as the bottom most child.
+                //Appending the dynamically generated html to the div associated with the id="users"
+                //Append will attach the element as the bottom most child.
                 
-            //   }
+              }
             //local storage - push value of chosen gif onto array
 
         
