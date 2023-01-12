@@ -17,6 +17,9 @@ var videoSearchResults = document.getElementById("video-results")
 var gifSearchResults = document.getElementById("gif-results")
 var previousVideoResults = document.getElementById("previous-results")
 
+var gifInVideo = document.getElementById("gif-for-video")
+var backgroundSound = document.getElementById("final-video")
+
 //variables
 
 let pastGifPicks = JSON.parse(localStorage.getItem("gifPicks")) //makes an array
@@ -31,7 +34,8 @@ if (pastVideoPicks===null) {
     pastVideoPicks = [] //makes sure we only create an empty array if nothing is there
 }
 
-
+var gifPick
+var videoPick
 
 
 // function to fetch youtube api
@@ -57,8 +61,14 @@ function getVideo(search) {
                 //Setting the text of the h3 element and p element.
                 nameOfVideo.textContent = data.items[i].snippet.title
                 thumbNail.src = data.items[i].snippet.thumbnails.default.url
+                var embedKey = data.items[i].id.videoId
+                console.log(embedKey)
                 videoSearchResults.appendChild(nameOfVideo)
                 videoSearchResults.appendChild(thumbNail)
+
+                thumbNail.addEventListener("click", gifClickHandler) //adds event listener to each gif
+                thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
+                console.log(gif.getAttribute('data-video')) 
                 
         
                 //Appending the dynamically generated html to the div associated with the id="users"
@@ -101,6 +111,10 @@ function getVideo(search) {
                 gif.src = gifData.data[i].images.fixed_height_small.url
                 console.log(gif.src)
                 gifSearchResults.appendChild(gif)
+                gif.setAttribute('data-gif', gif.src) //creates a data attribute to url of gif
+                console.log(gif.getAttribute('data-gif')) 
+                gif.addEventListener("click", gifClickHandler) //adds event listener to each gif
+                
                 
         
                 //Appending the dynamically generated html to the div associated with the id="users"
@@ -118,7 +132,32 @@ function getVideo(search) {
 
  }
 
+ var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
+    if (event.target = document.querySelector('img')) { //probably don't need this if but will keep it here for now
+        console.log("Gif clicked")
+        pickedGif = event.target.getAttribute('data-gif');
+        console.log(pickedGif)
+    } 
+  };
 
+  var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
+    if (event.target = document.querySelector('img')) {
+        console.log("Video clicked")
+        var pickedVideo = event.target.getAttribute('data-video');
+        console.log(pickedVideo)
+    } 
+  };
+
+
+//create another function that takes parameters pickedGif and pickedVideo, which will render video
+//pickedGif and pickedVideo are data attributes
+function renderVideo(pickedGif, pickedVideo) {
+    //render gif
+    gifInVideo.src = pickedGif.dataset.gif //value of attribute, url of gif
+    console.log(gifInVideo.src)
+    //render video
+    backgroundSound
+}
  //https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys
 
  //function for search bar and calls function to get video
