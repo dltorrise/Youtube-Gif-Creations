@@ -8,6 +8,8 @@
    <link href="link rel=" preconnect href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+   <!--added materialize style sheet-->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="./assets/css/styles.css" />
    <title>Project 1</title>
 </head>
@@ -18,6 +20,7 @@
 </header>
 
 <body>
+<!--changed form to "video-form"-->
    <div class="card">
       <!--changed h3 class to card-video-->
       <h3 class="card-video">Search Video</h3>
@@ -29,7 +32,7 @@
       </form>
    </div>
    <div id="video-results"></div>
-
+<!--changed form to "gif-form"-->
    <div class="card">
       <!--changed h3 class to card-gif-->
       <h3 class="card-gif">Search Gif</h3>
@@ -45,27 +48,30 @@
    <div class="card">
       <!--created video container to house created videos-->
       <div class="video-container"></div>
-
-      <h3 class="card-header">Your Videos</h3>
-      <form id="video-form" class="card-body">
-         <label class="form-label" for="Your Videos">Video</label>
-         <div name="video" id="your-video" class="your-video"></div>
+<!--changed form to "create-form"-->
+      <h3 class="video-header">Your Videos</h3>
+      <form id="create-form" class="card-body">
+         <label class="form-label" for="Your-Videos">Video</label>
+         <div name="video" class="your-video"></div>
          <button id="create-video" type="submit" class="create-btn">Create Video</button>
          <!--changed btn to create-btn-->
       </form>
-
-      <form id="video-form" class="card-body">
+<!--changed form to "previous-form"-->
+      <form id="previous-form" class="card-body">
          <label class="form-label" for="Previous Videos"></label>
          <button id="previous-video" type="submit" class="previous-btn"> Previous Videos</button>
       </form>
       <div id="previous-results"></div>
    </div>
-
-   <!--changed btn to "search-btn"-->
-   <button type="submit" class="search-btn">search</button>
+<!--renamed all "forms" to their respective buttons-->
    <script src="./assets/js/script.js"></script>
 
-
+   <footer>
+      <p> 
+         &copy; 2023 Awesome group Danielle, Ryan, and William.
+      </p>
+   </footer>
+<!--added footer class-->
 </body>
 
 </html>
