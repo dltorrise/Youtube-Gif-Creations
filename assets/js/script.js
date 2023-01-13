@@ -145,14 +145,15 @@ function getVideo(search) {
 
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
-    if (pickedVideo) {
-        pickedVideo = '' //clears out if someone already chose one
-    }
+    // if (pickedVideo) {
+    //     pickedVideo = '' //clears out if someone already chose one
+    // }
+    pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+    console.log(pickedVideo)
     if (pickedGif) {
         renderVideo(pickedGif, pickedVideo) //runs other function so long as both variables are defined
     }
-    pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
-    console.log(pickedVideo)
+    //embeddable might be deprecated, actually not entirely certain why this code isn't working
     // if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
     //         console.log("working")
     //         renderVideo(pickedGif, pickedVideo)
