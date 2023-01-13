@@ -39,28 +39,28 @@ if (pastVideoPicks===null) {
 
 
 
-//function to check if video is embeddable
+//function to check if video is embeddable (this isn't working but not sure why. This value might be deprecated)
 
-async function isEmbeddable(videoID) {
-    var isEmbeddable
-    console.log(videoID)
-    var embedURL = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoID}&key=${youTubeAPIKey}`
-    await fetch(embedURL) //returns response
-    .then(function (response) {
-        return response.json()
+// async function isEmbeddable(videoID) {
+//     var isEmbeddable
+//     console.log(videoID)
+//     var embedURL = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoID}&key=${youTubeAPIKey}`
+//     await fetch(embedURL) //returns response
+//     .then(function (response) {
+//         return response.json()
     
-    }) .then(function (data) {
+//     }) .then(function (data) {
 
-        console.log(data)
-        if (data.items[0].status.embeddable) {
-            isEmbeddable = true
-        } else {
-            isEmbeddable = false
-        } //will return true or false
-    })
-    console.log(isEmbeddable)
-    return isEmbeddable
-}
+//         console.log(data)
+//         if (data.items[0].status.embeddable) {
+//             isEmbeddable = true
+//         } else {
+//             isEmbeddable = false
+//         } //will return true or false
+//     })
+//     console.log(isEmbeddable)
+//     return isEmbeddable
+// }
 
 // function to fetch youtube api
 
@@ -131,26 +131,35 @@ function getVideo(search) {
 
  var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
     console.log("Gif clicked")
+    if (pickedGif) {
+        pickedGif = '' //clears out if someone already chose one
+    }
     pickedGif = event.target.getAttribute('data-gif');
     console.log(pickedGif)
     if (pickedVideo) {
         renderVideo(pickedGif, pickedVideo) //runs other function so long as both variables are defined
     }
-
 }
+
   var pickedVideo
 
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
+    if (pickedVideo) {
+        pickedVideo = '' //clears out if someone already chose one
+    }
+    if (pickedGif) {
+        renderVideo(pickedGif, pickedVideo) //runs other function so long as both variables are defined
+    }
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
-            console.log("working")
-            renderVideo(pickedGif, pickedVideo)
-    } else {
-        videoErrorMessage.textContent = "Sorry, this video is not embeddable. Please choose another one"
-        videoErrorMessage.classList.add("red") //text color red
-    }
+    // if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
+    //         console.log("working")
+    //         renderVideo(pickedGif, pickedVideo)
+    // } else {
+    //     videoErrorMessage.textContent = "Sorry, this video is not embeddable. Please choose another one"
+    //     videoErrorMessage.classList.add("red") //text color red
+    // }
     
   };
 
