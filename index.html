@@ -8,7 +8,6 @@
    <link href="link rel=" preconnect href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
-   <!--added materialize style sheet to page-->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="./assets/css/styles.css" />
    <title>Project 1</title>
@@ -20,61 +19,55 @@
 </header>
 
 <body>
-<!--changed form to "video-form"-->
-   <div class="card">
-      <!--changed h3 class to card-video-->
-      <h3 class="card-video">Search Video</h3>
-      <form id="video-form" class="card-body">
-         <label class="form-label" for="video">Video</label>
-         <input name="video" id="video" type="text" autofocus="true" class="form-input" />
+
+   <div class="card purple darken-4">
+      <h3 class="card-video purple darken-4">Search Video</h3>
+      <form id="video-form" class="card-body purple darken-4">
+         <label class="form-label" for="video"></label>
+         <input name="video" id="video" type="text" autofocus="true" class="input" />
          <button id="get-video" type="submit" class="find-btn">Find Video</button>
-         <!--changed btn to find-btn-->
       </form>
    </div>
    <div id="video-results"></div>
-<!--changed form to "gif-form"-->
-   <div class="card">
-      <!--changed h3 class to card-gif-->
+
+   <div class="card purple darken-4">
+
       <h3 class="card-gif">Search Gif</h3>
       <form id="gif-form" class="card-body">
-         <label class="form-label" for="gif">Gif</label>
-         <input name="gif" id="gif" type="text" autofocus="true" class="form-input" />
-         <button id="get-gif" type="submit" class="gif-btn">Find Gif</button>
-         <!--changed btn to gif-btn-->
+         <label class="form-label" for="gif"></label>
+         <input id="gif" type="text" autofocus="true" class="input" />
+         <button id="get-gif" type="submit" class="waves-effect waves-light gif-btn">Find Gif</button>
+
       </form>
       <div id="gif-results"></div>
    </div>
 
-   <div class="card">
-      <!--created video container to house created videos-->
-      <div class="video-container">
-         <img class="gif-for-video">
-         <iframe class="final-video"></iframe>
-      </div>
-
-      <h3 class="card-header">Your Videos</h3>
+   <div class="video-container">
+      <img class="gif-for-video">
+      <iframe class="final-video"></iframe>
       <form id="video-form" class="card-body">
-         <label class="form-label" for="Your Videos">Video</label>
-
          <button id="create-video" type="submit" class="create-btn">Create Video</button>
-         <!--changed btn to create-btn-->
+         <label class="form-label" for="Your-Videos"></label>
       </form>
-<!--changed form to "previous-form"-->
+   </div>
+
+   <div class=previous-video-container>
       <form id="previous-form" class="card-body">
          <label class="form-label" for="Previous Videos"></label>
-         <button id="previous-video" type="submit" class="previous-btn"> Previous Videos</button>
+         <button id="previous-video" type="submit" class="previous-btn">Previous Videos</button>
       </form>
       <div id="previous-results"></div>
+      <h4>Click to see your previous videos</h4>
    </div>
-<!--renamed all "forms" to their respective buttons-->
+
    <script src="./assets/js/script.js"></script>
 
-   <footer>
-      <p> 
+   <footer class="page-footer white-text center indigo darken-4">
+      <p>
          &copy; 2023 Awesome group Danielle, Ryan, and William.
       </p>
    </footer>
-<!--added footer class-->
+
 </body>
 
 </html>
