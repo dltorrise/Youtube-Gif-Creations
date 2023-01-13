@@ -20,33 +20,27 @@
 </header>
 
 <body>
-<!--changed form to "video-form"-->
    <div class="card">
-      <!--changed h3 class to card-video-->
       <h3 class="card-video">Search Video</h3>
       <form id="video-form" class="card-body">
          <label class="form-label" for="video">Video</label>
          <input name="video" id="video" type="text" autofocus="true" class="form-input" />
          <button id="get-video" type="submit" class="find-btn">Find Video</button>
-         <!--changed btn to find-btn-->
       </form>
    </div>
    <div id="video-results"></div>
-<!--changed form to "gif-form"-->
+   <div id="video-error"></div>
    <div class="card">
-      <!--changed h3 class to card-gif-->
       <h3 class="card-gif">Search Gif</h3>
       <form id="gif-form" class="card-body">
          <label class="form-label" for="gif">Gif</label>
          <input name="gif" id="gif" type="text" autofocus="true" class="form-input" />
          <button id="get-gif" type="submit" class="gif-btn">Find Gif</button>
-         <!--changed btn to gif-btn-->
       </form>
       <div id="gif-results"></div>
    </div>
 
    <div class="card">
-      <!--created video container to house created videos-->
       <div class="video-container">
          <img id="gif-for-video">
          <iframe id="final-video"></iframe>
@@ -57,16 +51,13 @@
          <label class="form-label" for="Your Videos">Video</label>
 
          <button id="create-video" type="submit" class="create-btn">Create Video</button>
-         <!--changed btn to create-btn-->
       </form>
-<!--changed form to "previous-form"-->
       <form id="previous-form" class="card-body">
          <label class="form-label" for="Previous Videos"></label>
          <button id="previous-video" type="submit" class="previous-btn"> Previous Videos</button>
       </form>
       <div id="previous-results"></div>
    </div>
-<!--renamed all "forms" to their respective buttons-->
    <script src="./assets/js/script.js"></script>
 
    <footer>
@@ -74,7 +65,6 @@
          &copy; 2023 Awesome group Danielle, Ryan, and William.
       </p>
    </footer>
-<!--added footer class-->
 </body>
 
 </html>

@@ -20,6 +20,8 @@ var previousVideoResults = document.getElementById("previous-results")
 var gifInVideo = document.getElementById("gif-for-video")
 var backgroundSound = document.getElementById("final-video")
 
+var videoErrorMessage = document.getElementById("video-error")
+
 
 //variables
 
@@ -35,11 +37,33 @@ if (pastVideoPicks===null) {
     pastVideoPicks = [] //makes sure we only create an empty array if nothing is there
 }
 
-var gifPick
-var videoPick
 
+
+//function to check if video is embeddable
+
+async function isEmbeddable(videoID) {
+    var isEmbeddable
+    console.log(videoID)
+    var embedURL = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoID}&key=${youTubeAPIKey}`
+    await fetch(embedURL) //returns response
+    .then(function (response) {
+        return response.json()
+    
+    }) .then(function (data) {
+
+        console.log(data)
+        if (data.items[0].status.embeddable) {
+            isEmbeddable = true
+        } else {
+            isEmbeddable = false
+        } //will return true or false
+    })
+    console.log(isEmbeddable)
+    return isEmbeddable
+}
 
 // function to fetch youtube api
+
 
 function getVideo(search) {
     console.log(search)
@@ -51,41 +75,27 @@ function getVideo(search) {
         return response.json()
     
     }) .then(function (data) {
-
         console.log(data)
-            //var thumbNail = document.createElement('img')
-            for (var i = 0; i < data.items.length; i++) {
-                //Creating a h3 element and a p element
-                var nameOfVideo = document.createElement('h6');
-                var thumbNail = document.createElement('img')
-        
-                //Setting the text of the h3 element and p element.
-                nameOfVideo.textContent = data.items[i].snippet.title
-                thumbNail.src = data.items[i].snippet.thumbnails.default.url
-                var embedKey = data.items[i].id.videoId
-                videoSearchResults.appendChild(nameOfVideo)
-                videoSearchResults.appendChild(thumbNail)
+        var embedKey = data.items[0].id.videoId
+        console.log(embedKey)
+        for (var i = 0; i < data.items.length; i++) {
+            //Creating a h3 element and a p element
+            var nameOfVideo = document.createElement('h6');
+            var thumbNail = document.createElement('img')
+                    
+            //Setting the text of the h3 element and p element.
+            nameOfVideo.textContent = data.items[i].snippet.title
+            thumbNail.src = data.items[i].snippet.thumbnails.default.url
+            videoSearchResults.appendChild(nameOfVideo)
+            videoSearchResults.appendChild(thumbNail)
+            
+            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+            thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
 
-                thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-                thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
+            }              
+    })
+}
                 
-        
-                //Appending the dynamically generated html to the div associated with the id="users"
-                //Append will attach the element as the bottom most child.
-
-                //local storage - push value of chosen video onto array
-                
-                
-              }
-        
-
-
-
-        })
-                
-
- }
-
  // function to fetch gif api
  var gifData = {};
 
@@ -111,51 +121,41 @@ function getVideo(search) {
                 gif.setAttribute('data-gif', gif.src) //creates a data attribute to url of gif
                 gif.addEventListener("click", gifClickHandler) //adds event listener to each gif
                 
-                
-        
-                //Appending the dynamically generated html to the div associated with the id="users"
-                //Append will attach the element as the bottom most child.
-                
               }
-            //local storage - push value of chosen gif onto array
-
-        
-
-
-
-        })
-                
-
+        })             
  }
+
+ ///event listeners
 
  var pickedGif
 
  var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
- //probably don't need this if but will keep it here for now
     console.log("Gif clicked")
     pickedGif = event.target.getAttribute('data-gif');
     console.log(pickedGif)
     if (pickedVideo) {
-        renderVideo() //runs other function so long as both variables are defined
+        renderVideo(pickedGif, pickedVideo) //runs other function so long as both variables are defined
     }
-    
-  };
 
+}
   var pickedVideo
 
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
-    pickedVideo = event.target.getAttribute('data-video');
+    pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    if (pickedGif) {
-        renderVideo()
+    if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
+            console.log("working")
+            renderVideo(pickedGif, pickedVideo)
+    } else {
+        videoErrorMessage.textContent = "Sorry, this video is not embeddable. Please choose another one"
+        videoErrorMessage.classList.add("red") //text color red
     }
     
   };
 
 
 //create another function that takes parameters pickedGif and pickedVideo, which will render video
-//pickedGif and pickedVideo are data attributes
 function renderVideo(pickedGif, pickedVideo) {
     console.log("function runs")
     //render gif
@@ -165,7 +165,6 @@ function renderVideo(pickedGif, pickedVideo) {
     backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}`
     console.log(backgroundSound.src)
 }
- //https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys
 
  //function for search bar and calls function to get video
 
