@@ -47,12 +47,15 @@
 
    <div class="card">
       <!--created video container to house created videos-->
-      <div class="video-container"></div>
-<!--changed form to "create-form"-->
-      <h3 class="video-header">Your Videos</h3>
-      <form id="create-form" class="card-body">
-         <label class="form-label" for="Your-Videos">Video</label>
-         <div name="video" class="your-video"></div>
+      <div class="video-container">
+         <img class="gif-for-video">
+         <iframe class="final-video"></iframe>
+      </div>
+
+      <h3 class="card-header">Your Videos</h3>
+      <form id="video-form" class="card-body">
+         <label class="form-label" for="Your Videos">Video</label>
+
          <button id="create-video" type="submit" class="create-btn">Create Video</button>
          <!--changed btn to create-btn-->
       </form>
