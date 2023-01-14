@@ -10,6 +10,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="./assets/css/styles.css" />
+   <script src="jquery-3.6.1.min.js"></script>
    <title>Project 1</title>
 </head>
 
@@ -41,12 +42,14 @@
       </form>
       <div id="gif-results"></div>
    </div>
-
+   <button id="play-btn" type="submit" class="play-btn">Play Video</button>
+   <button id="pause-video" class="button paused">Pause Video</button>
    <div class="video-container">
       <img id="gif-for-video">
       <iframe id="final-video"></iframe>
       <form id="video-form" class="card-body">
          <button id="create-video" type="submit" class="create-btn">Create Video</button>
+
          <label class="form-label" for="Your-Videos"></label>
       </form>
    </div>
