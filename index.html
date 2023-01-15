@@ -5,12 +5,12 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <link href="link rel=" preconnect href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
    <link rel="stylesheet" href="./assets/css/styles.css" />
-   <script src="jquery-3.6.1.min.js"></script>
    <title>Project 1</title>
 </head>
 
@@ -42,17 +42,19 @@
       </form>
       <div id="gif-results"></div>
    </div>
-   <button id="play-btn" type="submit" class="play-btn">Play Video</button>
-   <button id="pause-video" class="button paused">Pause Video</button>
+   <a class="play-button">Play Video</a>
+   <a class="pause-button">Pause Video</a>
+   <a class="stop-button">Stop Video</a>
    <div class="video-container">
-      <img id="gif-for-video">
-      <iframe id="final-video"></iframe>
+      <iframe class="youtube-video" id="youtube-video" modestbranding="0"  controls="0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <form id="video-form" class="card-body">
-         <button id="create-video" type="submit" class="create-btn">Create Video</button>
+         <img id="gif-for-video">
+
 
          <label class="form-label" for="Your-Videos"></label>
       </form>
    </div>
+   <button id="create-video" type="submit" class="create-btn">Create Video</button>
 
    <div class=previous-video-container>
       <form id="previous-form" class="card-body">
@@ -64,6 +66,7 @@
    </div>
 
    <script src="./assets/js/script.js"></script>
+
 
    <footer class="page-footer white-text center indigo darken-4">
       <p>

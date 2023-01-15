@@ -18,7 +18,7 @@ var gifSearchResults = document.getElementById("gif-results")
 var previousVideoResults = document.getElementById("previous-results")
 
 var gifInVideo = document.getElementById("gif-for-video")
-var backgroundSound = document.getElementById("final-video")
+var backgroundSound = document.getElementById("youtube-video")
 
 var videoErrorMessage = document.getElementById("video-error")
 
@@ -174,130 +174,25 @@ function renderVideo(pickedGif, pickedVideo) {
     gifInVideo.src = pickedGif //value of attribute, url of gif
     console.log(gifInVideo.src)
     //render video
-    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1` 
+    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&version=3&playerapiid=ytplayer` 
     console.log(backgroundSound.src)
-    onYouTubeIframeAPIReady(pickedVideo) //will define player
 }
 
 //function to play video
 
-//basically I just need external buttons to play and pause the video 
-//then I can put the gif over it
-
-var playVideoElement = document.getElementById("play-video")
-
-//from YouTube docs
-
-$(document).ready(function(){
-    var iframeCount = $('iframe');
-        iframeCount.each(function (index) {
-            $(this).siblings('.play-btn').attr('id', 'ytposter-' + index);
-            $(this).attr('id', 'ytplayer-' + index);
-        });
+$('a.play-video').click(function(){
+  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
+  console.log("play button clicked")
 });
 
-// 1. This code loads the IFrame Player API code asynchronously.
-var tag = document.createElement('script');
+$('a.stop-video').click(function(){
+  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+});
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+$('a.pause-video').click(function(){
+  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+});
 
-var yt_player = [], playButton = [];
-
-// 2. This function enables you to use the API on your page
-window.onYouTubeIframeAPIReady = function() {
-  $('iframe').each(function (index, value) {
-    yt_player[index] = new YT.Player(value.id, {
-      events: {
-        'onReady': onPlayerReady(index, value),
-        'onStateChange': onPlayerStateChange
-      }});
-  });
-}
-
-// 3. The API will call this function when the video player is ready.
-function onPlayerReady(index, value) {
-  var ytplayerid = value.id,
-        ytplaybuttonid = $(value).siblings('.play-btn').attr('id');
-  
-  playButton[index] = document.getElementById(pickedVideo);
-  playButton[index].addEventListener("click", function() {
-    $("#"+pickedVideo).hide();
-    $("#"+pickedVideo).siblings('img').hide();
-
-    var ytvideoid = $("#"+pickedVideo).siblings('iframe').data('ytvideoid');
-
-    if (window.navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
-      yt_player[index].mute();
-    }
-    yt_player[index].playVideo();
-    $("#"+ytplayerid).show();
-
-  });
-  var pauseButton = document.getElementById("pause-video");
-  pauseButton.addEventListener("click", function() {
-    yt_player[index].pauseVideo();
-  });
-}
-  
-// 4. The API calls this function when the player's state changes.
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-      $('#pause-video').show();
-    }
-  }
-
-// var tag = document.createElement('script');
-// tag.src = "https://www.youtube.com/iframe_api";
-// var firstScriptTag = document.getElementsByTagName('script')[0];
-// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// var player;
-
-// function onYouTubeIframeAPIReady() {
-//     player = new YT.Player('final-video', {
-//         videoId: pickedVideo,
-//         events: {
-//             'onReady': onPlayerReady,
-//             'onStateChange': onPlayerStateChange
-//         }
-//     });
-//     playVideoElement.addEventListener("click", playVideoBtn)
-//     playVideoElement.addEventListener("click", playVideoBtn)
-//     function playVideoBtn() {
-//         playVideoElement.innerHTML = "Pause Video"
-//         playVideoElement.removeEventListener("click", playVideoBtn)
-//         playVideoElement.addEventListener("click", pauseVideoBtn)
-//         player.pauseVideo()
-//     }
-
-//     function pauseVideoBtn() {
-//         playVideoElement.innerHTML = "Play Video"
-//         playVideoElement.removeEventListener("click", pauseVideoBtn)
-//         playVideoElement.addEventListener("click", playVideoBtn)
-//         player.playVideo()
-//     }
-// }
-// console.log(player)
-
-
-
-
-
-// function pauseVideoBtn() {
-//     playVideoElement.innerHTML = "Play Video"
-//     playVideoElement.removeEventListener("click", pauseVideoBtn)
-//     playVideoElement.addEventListener("click", playVideoBtn)
-//     player.playVideo()
-// }
-
-// function playVideoBtn() {
-//     playVideoElement.innerHTML = "Pause Video"
-//     playVideoElement.removeEventListener("click", playVideoBtn)
-//     playVideoElement.addEventListener("click", pauseVideoBtn)
-//     player.pauseVideo() //console is saying player is undefined
-// }
 
  //function for search bar and calls function to get video
 

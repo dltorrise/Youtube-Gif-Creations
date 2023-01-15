@@ -273,5 +273,5 @@ iframe {
 }
 
 #gif-for-video {
-    z-index:1;
+    z-index:300000;
 }
