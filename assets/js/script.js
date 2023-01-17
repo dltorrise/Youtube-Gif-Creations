@@ -78,9 +78,9 @@ function getVideo(search) {
     
     }) .then(function (data) {
         console.log(data)
-        var embedKey = data.items[0].id.videoId
-        console.log(embedKey)
+      
         for (var i = 0; i < data.items.length; i++) {
+            var embedKey = data.items[i].id.videoId
             //Creating a h3 element and a p element
             var nameOfVideo = document.createElement('h6');
             var thumbNail = document.createElement('img')
@@ -149,7 +149,7 @@ function getVideo(search) {
     console.log("Video clicked")
     pickedVideo = '' //clears out variable
     backgroundSound.removeAttribute('src') //when you click it a second time
-    console.log(backgroundSound.src)
+    //console.log(backgroundSound.src)
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
     backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1` 
@@ -171,47 +171,48 @@ function getVideo(search) {
 var player;
 
 // this function gets called when API is ready to use
-function onYouTubePlayerAPIReady() {
-    // create the global player from the specific iframe (#video)
-    player = new YT.Player('youtube-video', {
-        events: {
-            // call this function when player is ready to use
-            'onReady': onPlayerReady
-        }
-    });
-}
+// function onYouTubePlayerAPIReady() {
+//     // create the global player from the specific iframe (#video)
+//     player = new YT.Player('player', {
+//         videoId: pickedVideo,
+//         events: {
+//             // call this function when player is ready to use
+//             'onReady': onPlayerReady
+//         }
+//     });
+// }
 
-function onPlayerReady(event) {
+// function onPlayerReady(event) {
 
-    // bind events
-    var playButton = document.getElementById("play-button");
+//     // bind events
+//     var playButton = document.getElementById("play-button");
  
-    playButton.addEventListener("click", function() {
-        console.log('play button clicked')
-        player.playVideo();
-    });
+//     playButton.addEventListener("click", function() {
+//         console.log('play button clicked')
+//         player.playVideo();
+//     });
 
-    var pauseButton = document.getElementById("pause-button");
+//     var pauseButton = document.getElementById("pause-button");
 
-    pauseButton.addEventListener("click", function() {
-        console.log('pause button clicked')
-        player.pauseVideo();
-    });
+//     pauseButton.addEventListener("click", function() {
+//         console.log('pause button clicked')
+//         player.pauseVideo();
+//     });
 
-    var stopButton = document.getElementById("stop-button");
+//     var stopButton = document.getElementById("stop-button");
    
-    stopButton.addEventListener("click", function() {
-        console.log('stop button clicked')
-        player.stopVideo();
-    });
+//     stopButton.addEventListener("click", function() {
+//         console.log('stop button clicked')
+//         player.stopVideo();
+//     });
 
-}
+// }
 
 // Inject YouTube API script
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/player_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// var tag = document.createElement('script');
+// tag.src = "https://www.youtube.com/player_api";
+// var firstScriptTag = document.getElementsByTagName('script')[0];
+// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 //The window.postMessage() method safely enables cross-origin 
 //communication between Window objects; e.g., between a page and a
@@ -284,13 +285,18 @@ function previousVideo() {
         // pastVideoThumbnail.src = ///how am I going to do this without another fetch?
         // console.log(pastVideo.getAttribute('data-video'))
         // listOfVideos.appendChild(pastVideo)
+
         var title = document.createElement('h6')
         title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
         pastGifThumbnail.addEventListener("click", videoClickHandler)
-        pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
-        pastGifThumbnail.src = pastGifPicks[i]
+        if (pastGifPicks[i]===null) {
+            //append image w/ error message
+        } else {
+            pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
+            pastGifThumbnail.src = pastGifPicks[i]
+        }
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
         listOfVideos.appendChild(pastGif) //this should put them next to each other
