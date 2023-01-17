@@ -64,6 +64,8 @@ if (pastVideoPicks===null) {
 
 // function to fetch youtube api
 
+let titles = {} //globally defining an object to be used for local storage
+
 
 function getVideo(search) {
     console.log(search)
@@ -85,10 +87,12 @@ function getVideo(search) {
                     
             //Setting the text of the h3 element and p element.
             nameOfVideo.textContent = data.items[i].snippet.title
+            console.log(nameOfVideo.textContent)
             thumbNail.src = data.items[i].snippet.thumbnails.default.url
             videoSearchResults.appendChild(nameOfVideo)
             videoSearchResults.appendChild(thumbNail)
-            
+
+            titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
 
@@ -252,7 +256,8 @@ function gifSearchSubmit(event) {
 // create video local storage 
 function createVideo() {
     //but at some point we also need to push chosen value onto these arrays in other functions
-    pastVideoPicks.push(pickedVideo)
+    console.log(titles[pickedVideo])
+    pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
     pastGifPicks.push(pickedGif)
     localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
     localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
@@ -260,10 +265,11 @@ function createVideo() {
 
 //previous video button storage
 function previousVideo() {
+    console.log(titles)
     previousVideoResults.textContent = "Last 5 Videos"
     console.log("previous videos clicked")
     //previousVideoResults.classList.add("h5", ".text-primary")
-    var listOfVideos = document.createElement('ul') //creates box for list
+    var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
     for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
         if (pastGifPicks.length>5) {
@@ -278,11 +284,14 @@ function previousVideo() {
         // pastVideoThumbnail.src = ///how am I going to do this without another fetch?
         // console.log(pastVideo.getAttribute('data-video'))
         // listOfVideos.appendChild(pastVideo)
+        var title = document.createElement('h6')
+        title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
         pastGifThumbnail.addEventListener("click", videoClickHandler)
         pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
         pastGifThumbnail.src = pastGifPicks[i]
+        pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
         listOfVideos.appendChild(pastGif) //this should put them next to each other
     }
