@@ -275,3 +275,7 @@ iframe {
 #gif-for-video {
     z-index:300000;
 }
+
+a {
+    margin-top: 10px;
+}

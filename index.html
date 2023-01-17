@@ -42,9 +42,11 @@
       </form>
       <div id="gif-results"></div>
    </div>
-   <a class="play-button">Play Video</a>
-   <a class="pause-button">Pause Video</a>
-   <a class="stop-button">Stop Video</a>
+   <div class="buttons">
+		<button class="button" id="play-button">PLAY</button>
+		<button class="button" id="pause-button">PAUSE</button>
+		<button class="button" id="stop-button">STOP</button>
+	</div>
    <div class="video-container">
       <iframe class="youtube-video" id="youtube-video" modestbranding="0"  controls="0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <form id="video-form" class="card-body">
@@ -64,6 +66,7 @@
       </form>
       <div id="previous-results"></div>
    </div>
+   <div id="youtube-api"></div>
 
    <script src="./assets/js/script.js"></script>
 

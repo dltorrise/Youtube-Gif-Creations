@@ -89,8 +89,9 @@ function getVideo(search) {
             videoSearchResults.appendChild(nameOfVideo)
             videoSearchResults.appendChild(thumbNail)
             
-            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
+            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+
 
             }              
     })
@@ -147,7 +148,7 @@ function getVideo(search) {
     console.log(backgroundSound.src)
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&version=3&playerapiid=ytplayer` 
+    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1` 
     }
 
     //embeddable might be deprecated, actually not entirely certain why this code isn't working
@@ -162,19 +163,61 @@ function getVideo(search) {
 
 //function to play video
 
-$('a.play-video').click(function(){
-  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');
-  console.log("play button clicked")
-});
+// global variable for the player
+var player;
 
-$('a.stop-video').click(function(){
-  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
-});
+// this function gets called when API is ready to use
+function onYouTubePlayerAPIReady() {
+    // create the global player from the specific iframe (#video)
+    player = new YT.Player('youtube-video', {
+        events: {
+            // call this function when player is ready to use
+            'onReady': onPlayerReady
+        }
+    });
+}
 
-$('a.pause-video').click(function(){
-  $('.youtube-video')[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
-});
+function onPlayerReady(event) {
 
+    // bind events
+    var playButton = document.getElementById("play-button");
+ 
+    playButton.addEventListener("click", function() {
+        console.log('play button clicked')
+        player.playVideo();
+    });
+
+    var pauseButton = document.getElementById("pause-button");
+
+    pauseButton.addEventListener("click", function() {
+        console.log('pause button clicked')
+        player.pauseVideo();
+    });
+
+    var stopButton = document.getElementById("stop-button");
+   
+    stopButton.addEventListener("click", function() {
+        console.log('stop button clicked')
+        player.stopVideo();
+    });
+
+}
+
+// Inject YouTube API script
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//The window.postMessage() method safely enables cross-origin 
+//communication between Window objects; e.g., between a page and a
+// pop-up that it spawned, or between a page and an iframe embedded 
+//within it.
+
+// var tag = document.createElement('script');
+// tag.src = "https://www.youtube.com/iframe_api";
+// var firstScriptTag = document.getElementsByTagName('script')[0];
+// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
  //function for search bar and calls function to get video
 
@@ -227,17 +270,20 @@ function previousVideo() {
           pastGifPicks.shift() //removes first element  
           pastVideoPicks.shift()
         }
-        var pastVideo = document.createElement('li')
-        var pastVideoThumbnail = document.createElement('img')
-        //pastVideo.classList.add("list-group-item")
-        pastVideo.addEventListener("click", gifClickHandler) //so you can click on it
-        pastVideo.setAttribute('data-video', pastVideoPicks[i])
-        pastVideoThumbnail.src = ///how am I going to do this without another fetch?
-        console.log(pastVideo.getAttribute('data-video'))
-        listOfVideos.appendChild(pastVideo)
-        var pastGif = document.createElement('li')
-        pastGif.addEventListener("click", videoClickHandler)
-        pastGif.setAttribute('data-gif', pastGifPicks[i])
+        // var pastVideo = document.createElement('li')
+        // var pastVideoThumbnail = document.createElement('img')
+        // //pastVideo.classList.add("list-group-item")
+        // pastVideo.addEventListener("click", gifClickHandler) //so you can click on it
+        // pastVideo.setAttribute('data-video', pastVideoPicks[i]) 
+        // pastVideoThumbnail.src = ///how am I going to do this without another fetch?
+        // console.log(pastVideo.getAttribute('data-video'))
+        // listOfVideos.appendChild(pastVideo)
+        var pastGif = document.createElement('li') //creates a list element
+        var pastGifThumbnail = document.createElement('img')
+        pastGifThumbnail.addEventListener("click", videoClickHandler)
+        pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
+        pastGifThumbnail.src = pastGifPicks[i]
+        pastGif.appendChild(pastGifThumbnail)
         listOfVideos.appendChild(pastGif) //this should put them next to each other
     }
 }
@@ -265,3 +311,4 @@ getPreviousVideoBtn.addEventListener("click",previousVideo)
 //going to have to embed youtube video in html
 //getting back html and have boiler plate
 //have a redirect
+
