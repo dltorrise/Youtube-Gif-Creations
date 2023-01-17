@@ -170,43 +170,43 @@ function getVideo(search) {
 // global variable for the player
 var player;
 
-// this function gets called when API is ready to use
-// function onYouTubePlayerAPIReady() {
-//     // create the global player from the specific iframe (#video)
-//     player = new YT.Player('player', {
-//         videoId: pickedVideo,
-//         events: {
-//             // call this function when player is ready to use
-//             'onReady': onPlayerReady
-//         }
-//     });
-// }
+//this function gets called when API is ready to use
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player2', {
+        videoId: String(pickedGif),
+        //videoId: pickedVideo, //should play picked video
+        events: {
+          'onReady': onPlayerReady,
+          //'onStateChange': onPlayerStateChange
+        }
+    });
+  }
 
-// function onPlayerReady(event) {
+function onPlayerReady(event) {
 
-//     // bind events
-//     var playButton = document.getElementById("play-button");
+    // bind events
+    var playButton = document.getElementById("play-button");
  
-//     playButton.addEventListener("click", function() {
-//         console.log('play button clicked')
-//         player.playVideo();
-//     });
+    playButton.addEventListener("click", function() {
+        console.log('play button clicked')
+        player.playVideo();
+    });
 
-//     var pauseButton = document.getElementById("pause-button");
+    var pauseButton = document.getElementById("pause-button");
 
-//     pauseButton.addEventListener("click", function() {
-//         console.log('pause button clicked')
-//         player.pauseVideo();
-//     });
+    pauseButton.addEventListener("click", function() {
+        console.log('pause button clicked')
+        player.pauseVideo();
+    });
 
-//     var stopButton = document.getElementById("stop-button");
+    var stopButton = document.getElementById("stop-button");
    
-//     stopButton.addEventListener("click", function() {
-//         console.log('stop button clicked')
-//         player.stopVideo();
-//     });
+    stopButton.addEventListener("click", function() {
+        console.log('stop button clicked')
+        player.stopVideo();
+    });
 
-// }
+}
 
 // Inject YouTube API script
 // var tag = document.createElement('script');
@@ -219,10 +219,10 @@ var player;
 // pop-up that it spawned, or between a page and an iframe embedded 
 //within it.
 
-// var tag = document.createElement('script');
-// tag.src = "https://www.youtube.com/iframe_api";
-// var firstScriptTag = document.getElementsByTagName('script')[0];
-// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
  //function for search bar and calls function to get video
 
