@@ -7,7 +7,7 @@ giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
 var getVideoBtn = document.getElementById("video-form")
 var getGifBtn = document.getElementById("gif-form")
-var getCreateVideoBtn = document.getElementById("create-video")
+var getCreateVideoBtn = document.getElementById("save-video")
 var getPreviousVideoBtn = document.getElementById("previous-video")
 
 var videoInput = document.getElementById("video")
@@ -19,6 +19,7 @@ var previousVideoResults = document.getElementById("previous-results")
 
 var gifInVideo = document.getElementById("gif-for-video")
 var backgroundSound = document.getElementById("youtube-video")
+var saveVideoError = document.getElementById("save-error")
 
 //var videoErrorMessage = document.getElementById("video-error")
 
@@ -254,15 +255,28 @@ function gifSearchSubmit(event) {
     }
 }
 
+
+
+
 // create video local storage 
+var saveVideoError = document.createElement("h6")
+saveVideoError.innerHTML = ""
+document.body.appendChild(saveVideoError)
+
 function createVideo() {
-    //but at some point we also need to push chosen value onto these arrays in other functions
-    console.log(titles[pickedVideo])
-    pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
-    pastGifPicks.push(pickedGif)
-    localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
-    localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
+    if (pickedVideo && pickedGif) {
+        console.log(titles[pickedVideo])
+        pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
+        pastGifPicks.push(pickedGif)
+        localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
+        localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
+        saveVideoError.innerHTML = "Success! You saved your creation!"
+    } else {
+        saveVideoError.innerHTML = "Sorry, you have to pick a Gif and a video to save your creation!"
+    }
+
 }
+
 
 //previous video button storage
 function previousVideo() {
