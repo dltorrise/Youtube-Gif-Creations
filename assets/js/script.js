@@ -19,7 +19,7 @@ var previousVideoResults = document.getElementById("previous-results")
 
 var gifInVideo = document.getElementById("gif-for-video")
 var backgroundSound = document.getElementById("youtube-video")
-var saveVideoError = document.getElementById("save-error")
+var saveVideoErrorMessage = document.getElementById("save-error")
 
 //var videoErrorMessage = document.getElementById("video-error")
 
@@ -271,7 +271,7 @@ function gifSearchSubmit(event) {
 // create video local storage 
 var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
-document.body.appendChild(saveVideoError)
+saveVideoErrorMessage.appendChild(saveVideoError)
 
 function createVideo() {
     if (pickedVideo && pickedGif) {
