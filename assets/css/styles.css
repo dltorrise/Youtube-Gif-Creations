@@ -87,16 +87,16 @@ body {
 }
 
 #video-results h6 {
-   font-size: 1.2rem;
-   width: 100%;
-   word-break: break-word;
-   word-wrap: break-word;
-   white-space: normal;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   color: var(--light);
-   min-height: 70px;
-}
+    font-size: 1.2rem;
+    width: 100%;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light);
+    min-height: 70px;
+ }
 
 /* card-gif*/
 
@@ -233,7 +233,7 @@ iframe {
     padding: auto;
 }
 
-/* previous-form */
+/* previous-container*/
 
 #previous-form {
     grid-area: form-area;
@@ -246,24 +246,28 @@ iframe {
     grid-template-columns: 200px 1fr;
 }
 
-/* #previous-results /*
-
-/* possible list of videos
-.list-group {
-    padding: 0;
-    list-style: none;
+#previous-results img {
+    width: 100%;
+    height: auto;
 }
 
-.list-item {
-    margin-bottom: 10px;
-    padding: 1.5%;
-    border-radius: var(--border-radius);
-    background-color: var(--blue);
-    color: var(--primary);
-    text-decoration: none;
+#previous-results img:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 
-.list-item:hover {
-    background-color: var(--purple);
+#previous-results h6 {
+    font-size: 1.2rem;
+    width: 100%;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light);
+    min-height: 70px;
 }
-*/
+
+
+
+
