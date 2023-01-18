@@ -214,6 +214,19 @@ function onPlayerReady(event) {
         player.pauseVideo();
     });
 
+    var muteButton = document.getElementById("mute-button");
+    muteButton.addEventListener("click", function(){
+        if (player.isMuted()) { //if it's muted, unmute it
+            muteButton.innerHTML = ''
+            player.unMute();
+            muteButton.innerHTML = 'UNMUTE'
+        } else { //if its unmuted, mute it
+            muteButton.innerHTML = ''
+            player.mute();
+            muteButton.innerHTML = 'MUTE'
+        }
+    })
+
 }
 
 //loads iframe api
