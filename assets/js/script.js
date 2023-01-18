@@ -22,6 +22,8 @@ var previousVideoResults = document.getElementById("previous-results")
 var gifInVideo = document.getElementById("gif-for-video")
 var backgroundSound = document.getElementById("youtube-video")
 var saveVideoErrorMessage = document.getElementById("save-error")
+var controlsSection = document.getElementById("controls")
+var videoContainer = document.getElementById("video-container")
 
 //variables
 
@@ -106,6 +108,7 @@ function getVideo(search) {
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             //thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
             thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
+            console.log(embedKey)
 
             }              
     })
@@ -206,15 +209,33 @@ function onYouTubePlayerAPIReady(pickedVideo) {
   player = new YT.Player('player', {
     videoId: pickedVideo, //input is working, i think only problem now is that
     //pickedVideo is undefined
-    //videoId: 'M7lc1UVf-VE',
-    playervars: {
-        controls: 0,
-        rel: 0
-    },
-    loop: 0,
+    videoId: 'M7lc1UVf-VE',
+    events: {
+        'onReady': onPlayerReady
+
+    }
 
 
   });
+}
+
+function onPlayerReady(event) {
+    controlsSection.classList.remove("hide") //shows buttons once video displays
+    getCreateVideoBtn.classList.remove("hide")
+    videoContainer.classList.remove("hide")
+
+
+    // bind events
+    var playButton = document.getElementById("play-button");
+    playButton.addEventListener("click", function() {
+        player.playVideo();
+    });
+
+    var pauseButton = document.getElementById("pause-button");
+    pauseButton.addEventListener("click", function() {
+        player.pauseVideo();
+    });
+
 }
 // Inject YouTube API script
 //some websites recommend loading the player api instead
