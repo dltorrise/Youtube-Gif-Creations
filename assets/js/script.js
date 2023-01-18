@@ -304,12 +304,28 @@ function previousVideo() {
         title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
-        pastGifThumbnail.addEventListener("click", videoClickHandler)
+        pastGifThumbnail.addEventListener("click", renderPastVideo)
         pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
+        pastGifThumbnail.setAttribute('data-video', pastVideoPicks[i])
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
         listOfVideos.appendChild(pastGif) //this should put them next to each other
+        function renderPastVideo(event) {
+            //renders past video
+            pickedVideo = '' //clears out variable
+            backgroundSound.removeAttribute('src') //when you click it a second time
+            //console.log(backgroundSound.src)
+            pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+            console.log(pickedVideo)
+            backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
+            //renders past gif
+            pickedGif = ''
+            gifInVideo.removeAttribute('src')
+            pickedGif = event.target.getAttribute('data-gif');
+            console.log(pickedGif)
+            gifInVideo.src = pickedGif 
+        }
     }
 }
 
