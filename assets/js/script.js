@@ -32,10 +32,20 @@ if (pastGifPicks===null) {
     pastGifPicks = [] //makes sure we only create an empty array if nothing is there
 }
 
+//this contains name of the videos to render local storage
+
 let pastVideoPicks = JSON.parse(localStorage.getItem("videoPicks")) //makes an array
 
 if (pastVideoPicks===null) {
     pastVideoPicks = [] //makes sure we only create an empty array if nothing is there
+}
+
+//this contains actual video ids to repopulate local storage
+
+let embedKeyz = JSON.parse(localStorage.getItem("embedKeys")) //makes an array
+
+if (embedKeyz===null) {
+    embedKeyz = [] //makes sure we only create an empty array if nothing is there
 }
 
 
@@ -268,8 +278,10 @@ function createVideo() {
         console.log(titles[pickedVideo])
         pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
         pastGifPicks.push(pickedGif)
+        embedKeyz.push(pickedVideo)
         localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
         localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
+        localStorage.setItem("embedKeys", JSON.stringify(embedKeyz))
         saveVideoError.innerHTML = "Success! You saved your creation!"
     } else {
         saveVideoError.innerHTML = "Sorry, you have to pick a Gif and a video to save your creation!"
@@ -291,22 +303,13 @@ function previousVideo() {
           pastGifPicks.shift() //removes first element  
           pastVideoPicks.shift()
         }
-        // var pastVideo = document.createElement('li')
-        // var pastVideoThumbnail = document.createElement('img')
-        // //pastVideo.classList.add("list-group-item")
-        // pastVideo.addEventListener("click", gifClickHandler) //so you can click on it
-        // pastVideo.setAttribute('data-video', pastVideoPicks[i]) 
-        // pastVideoThumbnail.src = ///how am I going to do this without another fetch?
-        // console.log(pastVideo.getAttribute('data-video'))
-        // listOfVideos.appendChild(pastVideo)
-
         var title = document.createElement('h6')
         title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
         pastGifThumbnail.addEventListener("click", renderPastVideo)
         pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
-        pastGifThumbnail.setAttribute('data-video', pastVideoPicks[i])
+        pastGifThumbnail.setAttribute('data-video', embedKeyz[i]) //should store embed key
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
