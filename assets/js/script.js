@@ -153,8 +153,8 @@ function getVideo(search) {
     gifInVideo.src = pickedGif 
 }
 
-  var pickedVideo
-
+  var pickedVideo //defined globally
+ 
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
     pickedVideo = '' //clears out variable
@@ -162,7 +162,7 @@ function getVideo(search) {
     //console.log(backgroundSound.src)
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1` 
+    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
     }
 
     //embeddable might be deprecated, actually not entirely certain why this code isn't working
@@ -177,47 +177,26 @@ function getVideo(search) {
 
 //function to play video
 
-// global variable for the player
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+console.log(pickedVideo) //no clue why this is undefined
 var player;
+function onYouTubePlayerAPIReady() {
+  player = new YT.Player('player2', {
+    videoId: 'M7lc1UVf-VE',
+    enablejsapi: 1,
+    playervars: {controls: 0},
+    loop: 0,
+    origin: 'https://www.youtube.com/',
 
-//this function gets called when API is ready to use
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player2', {
-        videoId: String(pickedGif),
-        //videoId: pickedVideo, //should play picked video
-        events: {
-          'onReady': onPlayerReady,
-          //'onStateChange': onPlayerStateChange
-        }
-    });
-  }
 
-function onPlayerReady(event) {
-
-    // bind events
-    var playButton = document.getElementById("play-button");
- 
-    playButton.addEventListener("click", function() {
-        console.log('play button clicked')
-        player.playVideo();
-    });
-
-    var pauseButton = document.getElementById("pause-button");
-
-    pauseButton.addEventListener("click", function() {
-        console.log('pause button clicked')
-        player.pauseVideo();
-    });
-
-    var stopButton = document.getElementById("stop-button");
-   
-    stopButton.addEventListener("click", function() {
-        console.log('stop button clicked')
-        player.stopVideo();
-    });
-
+  });
 }
-
 // Inject YouTube API script
 //some websites recommend loading the player api instead
 // var tag = document.createElement('script');
@@ -270,7 +249,8 @@ function gifSearchSubmit(event) {
 var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
-
+//I don't want to be able to save the exact two results twice but not
+//sure how to change that
 function createVideo() {
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
@@ -286,6 +266,7 @@ function createVideo() {
     }
 
 }
+
 
 //previous video button to render storage
 function previousVideo() {
@@ -351,3 +332,8 @@ getPreviousVideoBtn.addEventListener("click",previousVideo)
 //getting back html and have boiler plate
 //have a redirect
 
+//tests if HTML5 is supported in browser
+var videoElement = document.createElement('video');
+if (videoElement && videoElement.canPlayType && (videoElement.canPlayType('video/mp4; codecs="avc1.42001E, mp4a.40.2"') || videoElement.canPlayType('video/webm; codecs="vp8.0, vorbis"'))) {
+    console.log("it works!") //logged
+}
