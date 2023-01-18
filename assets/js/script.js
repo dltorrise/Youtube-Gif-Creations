@@ -305,12 +305,8 @@ function previousVideo() {
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
         pastGifThumbnail.addEventListener("click", videoClickHandler)
-        if (pastGifPicks[i]===null) {
-            //append image w/ error message
-        } else {
-            pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
-            pastGifThumbnail.src = pastGifPicks[i]
-        }
+        pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
+        pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
         listOfVideos.appendChild(pastGif) //this should put them next to each other
