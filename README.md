@@ -46,3 +46,5 @@ and save it in local storage)
 ## Acknowledgements
 
 [Red Panther] helped me with the play, pause, and stop buttons in the Youtube Iframe API with [this video}(https://www.youtube.com/watch?v=5Y-aYA6YLlg) on his YouTube Channel. 
+
+I also got help from [ThirteeNov Coding Tutorials](https://www.youtube.com/@ThirteeNov) in [his video](https://www.youtube.com/watch?v=QkWOaqGn9Vg&t=183s) about dynamically playing videos in iframe. 

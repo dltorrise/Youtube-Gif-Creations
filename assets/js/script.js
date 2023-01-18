@@ -1,5 +1,12 @@
 //API Keys
 
+//currently the three main things I want to do are add a volume button
+//speed up bottons and also toggle video length
+//but for the MVP I need to figure out how to make videos work
+//throws 403 error
+//overlay gif
+//get SDK key from giphy
+
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
@@ -24,6 +31,7 @@ var backgroundSound = document.getElementById("youtube-video")
 var saveVideoErrorMessage = document.getElementById("save-error")
 var controlsSection = document.getElementById("controls")
 var videoContainer = document.getElementById("video-container")
+var videoErrorMessage = document.getElementById("video-error-message")
 
 //variables
 
@@ -115,6 +123,7 @@ function getVideo(search) {
 }
                 
  // function to fetch gif api
+
  var gifData = {}; //something Jason recommended to make finding data in object easier
 
  function getGif(gif) {
@@ -190,11 +199,6 @@ function getVideo(search) {
 
 //function to play video
 
-// var tag = document.createElement('script');
-// tag.src = "https://www.youtube.com/player_api";
-// var firstScriptTag = document.getElementsByTagName('script')[0];
-// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
 console.log(pickedVideo) //no clue why this is undefined
@@ -211,12 +215,18 @@ function onYouTubePlayerAPIReady(pickedVideo) {
     //pickedVideo is undefined
     videoId: 'M7lc1UVf-VE',
     events: {
-        'onReady': onPlayerReady
+        'onReady': onPlayerReady,
+        'onError': showErrorMessage
 
     }
 
 
   });
+}
+
+function showErrorMessage() {
+    var videoDoesntWork = document.createElement('h6')
+    videoDoesntWork.innerHTML = "This video doesn't seem to be playing. There is either an error in the network or you picked a video that was not embeddable. Please pick another video or try again another time" //this error message
 }
 
 function onPlayerReady(event) {
@@ -237,12 +247,6 @@ function onPlayerReady(event) {
     });
 
 }
-// Inject YouTube API script
-//some websites recommend loading the player api instead
-// var tag = document.createElement('script');
-// tag.src = "https://www.youtube.com/player_api";
-// var firstScriptTag = document.getElementsByTagName('script')[0];
-// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 //The window.postMessage() method safely enables cross-origin 
 //communication between Window objects; e.g., between a page and a

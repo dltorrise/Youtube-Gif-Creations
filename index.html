@@ -44,11 +44,12 @@
    </div>
 
    <div id="gif-image">
-      <img id="gif-for-video">
+
    </div>
    <div id="video-container" class="hide video-container">
       <form id="video-form" class="card-body">
-         <div id="player"></div>
+         <img id="gif-for-video" style="z-index:9">
+         <div id="player" style="z-index:1"></div>
          <label class="form-label" for="Your-Videos"></label>
       </form>
    </div>
@@ -57,6 +58,7 @@
          <button class="button" id="play-button">PLAY</button>
          <button class="button" id="pause-button">PAUSE</button>
       </div>
+      <div class="video-error-message"></div>
    </div>
    <!--changed name of everything to save button-->
    <div id="save-video-button hide">
