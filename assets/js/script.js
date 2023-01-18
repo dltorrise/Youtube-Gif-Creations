@@ -1,11 +1,24 @@
 //API Keys
 
-//currently the three main things I want to do are add a volume button
-//speed up bottons and also toggle video length
-//but for the MVP I need to figure out how to make videos work
-//throws 403 error
+//priorities
+//figure out why event.target isn't working the same
+//403 error
 //overlay gif
 //get SDK key from giphy
+
+//desires
+//volume button toggle
+//speed up bottons toggle
+//video length toggle
+
+//finishing up
+//ryan formatting
+//clean up code
+//error message about video playing
+//saving multiple of the same
+
+//https://developers.google.com/youtube/iframe_api_reference
+//at approximately 44 minutes for help with toggle codes
 
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
@@ -27,7 +40,7 @@ var gifSearchResults = document.getElementById("gif-results")
 var previousVideoResults = document.getElementById("previous-results")
 
 var gifInVideo = document.getElementById("gif-for-video")
-var backgroundSound = document.getElementById("youtube-video")
+//var backgroundSound = document.getElementById("youtube-video")
 var saveVideoErrorMessage = document.getElementById("save-error")
 var controlsSection = document.getElementById("controls")
 var videoContainer = document.getElementById("video-container")
@@ -56,31 +69,6 @@ let embedKeyz = JSON.parse(localStorage.getItem("embedKeys")) //makes an array
 if (embedKeyz===null) {
     embedKeyz = [] //makes sure we only create an empty array if nothing is there
 }
-
-
-
-//function to check if video is embeddable (this isn't working but not sure why. This value might be deprecated)
-
-// async function isEmbeddable(videoID) {
-//     var isEmbeddable
-//     console.log(videoID)
-//     var embedURL = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoID}&key=${youTubeAPIKey}`
-//     await fetch(embedURL) //returns response
-//     .then(function (response) {
-//         return response.json()
-    
-//     }) .then(function (data) {
-
-//         console.log(data)
-//         if (data.items[0].status.embeddable) {
-//             isEmbeddable = true
-//         } else {
-//             isEmbeddable = false
-//         } //will return true or false
-//     })
-//     console.log(isEmbeddable)
-//     return isEmbeddable
-// }
 
 // function to fetch youtube api
 
@@ -114,7 +102,7 @@ function getVideo(search) {
 
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
-            //thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
             thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
             console.log(embedKey)
 
@@ -171,37 +159,16 @@ function getVideo(search) {
     console.log("Video clicked")
     pickedVideo = '' //clears out variable
     //backgroundSound.removeAttribute('src') //when you click it a second time
-    //console.log(backgroundSound.src)
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    
-    //window.pickedVideo = pickedVideo //defines function globally
-    //pickedVideoQuestionMark()
     //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
     }
-
-    // function pickedVideoQuestionMark() {
-    //     if (pickedVideo) {
-    //         console.log("yes, pickedVideo is defined globally")
-    //     }
-    // }
-//this works but it's still not defined
-
-    //embeddable might be deprecated, actually not entirely certain why this code isn't working
-    // if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
-    //         console.log("working")
-    //         renderVideo(pickedGif, pickedVideo)
-    // } else {
-    //     videoErrorMessage.textContent = "Sorry, this video is not embeddable. Please choose another one"
-    //     videoErrorMessage.classList.add("red") //text color red
-    // }
 
 
 //function to play video
 
-// Replace the 'ytplayer' element with an <iframe> and
+// Replace the id='player' element with an <iframe> and
 // YouTube player after the API code downloads.
-console.log(pickedVideo) //no clue why this is undefined
 var player;
 
 //I know this function is working, I just don't know how to dynamically
@@ -211,7 +178,7 @@ function onYouTubePlayerAPIReady(pickedVideo) {
     player.destroy()
   }
   player = new YT.Player('player', {
-    videoId: pickedVideo, //input is working, i think only problem now is that
+    //videoId: pickedVideo, //input is working, i think only problem now is that
     //pickedVideo is undefined
     videoId: 'M7lc1UVf-VE',
     events: {
@@ -226,7 +193,8 @@ function onYouTubePlayerAPIReady(pickedVideo) {
 
 function showErrorMessage() {
     var videoDoesntWork = document.createElement('h6')
-    videoDoesntWork.innerHTML = "This video doesn't seem to be playing. There is either an error in the network or you picked a video that was not embeddable. Please pick another video or try again another time" //this error message
+    videoDoesntWork.innerHTML = "This video doesn't seem to be working. There is either an issue with your network or you picked a video that is not embeddable. Please pick another video or try again at another time" //this error message
+    videoErrorMessage.appendChild(videoDoesntWork)
 }
 
 function onPlayerReady(event) {
@@ -248,10 +216,7 @@ function onPlayerReady(event) {
 
 }
 
-//The window.postMessage() method safely enables cross-origin 
-//communication between Window objects; e.g., between a page and a
-// pop-up that it spawned, or between a page and an iframe embedded 
-//within it.
+//loads iframe api
 
 var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -293,10 +258,14 @@ function gifSearchSubmit(event) {
 var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
-//I don't want to be able to save the exact two results twice but not
-//sure how to change that
-//maybe do like if pastVideoPicks.includes && pastGifPicks.includes
+
+//trying to get it to return out of function
 function createVideo() {
+    for (i=0; i<pastGifPicks.length; i++) {
+        if (pastGifPicks[i]===pickedGif && pastVideoPicks===pickedVideo) {
+            return
+        }
+    }
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
         pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
@@ -370,15 +339,14 @@ getCreateVideoBtn.addEventListener("click",createVideo)
 
 getPreviousVideoBtn.addEventListener("click",previousVideo)
 
-// put an attribute on search results and then do event.target to determine
-// which one, look at 6.21
-
-//going to have to embed youtube video in html
-//getting back html and have boiler plate
-//have a redirect
 
 //tests if HTML5 is supported in browser
-var videoElement = document.createElement('video');
-if (videoElement && videoElement.canPlayType && (videoElement.canPlayType('video/mp4; codecs="avc1.42001E, mp4a.40.2"') || videoElement.canPlayType('video/webm; codecs="vp8.0, vorbis"'))) {
-    console.log("it works!") //logged
-}
+// var videoElement = document.createElement('video');
+// if (videoElement && videoElement.canPlayType && (videoElement.canPlayType('video/mp4; codecs="avc1.42001E, mp4a.40.2"') || videoElement.canPlayType('video/webm; codecs="vp8.0, vorbis"'))) {
+//     console.log("it works!") //logged
+// }
+
+//The window.postMessage() method safely enables cross-origin 
+//communication between Window objects; e.g., between a page and a
+// pop-up that it spawned, or between a page and an iframe embedded 
+//within it.
