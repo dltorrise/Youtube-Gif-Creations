@@ -3,11 +3,13 @@
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
+//will have to swap giphy API key once deployed
+
 //DOM Elements
 
 var getVideoBtn = document.getElementById("video-form")
 var getGifBtn = document.getElementById("gif-form")
-var getCreateVideoBtn = document.getElementById("create-video")
+var getCreateVideoBtn = document.getElementById("save-video")
 var getPreviousVideoBtn = document.getElementById("previous-video")
 
 var videoInput = document.getElementById("video")
@@ -18,7 +20,8 @@ var gifSearchResults = document.getElementById("gif-results")
 var previousVideoResults = document.getElementById("previous-results")
 
 var gifInVideo = document.getElementById("gif-for-video")
-var backgroundSound = document.getElementById("final-video")
+var backgroundSound = document.getElementById("youtube-video")
+var saveVideoErrorMessage = document.getElementById("save-error")
 
 //variables
 
@@ -28,17 +31,51 @@ if (pastGifPicks===null) {
     pastGifPicks = [] //makes sure we only create an empty array if nothing is there
 }
 
+//this contains name of the videos to render local storage
+
 let pastVideoPicks = JSON.parse(localStorage.getItem("videoPicks")) //makes an array
 
 if (pastVideoPicks===null) {
     pastVideoPicks = [] //makes sure we only create an empty array if nothing is there
 }
 
-var gifPick
-var videoPick
+//this contains actual video ids to repopulate local storage
 
+let embedKeyz = JSON.parse(localStorage.getItem("embedKeys")) //makes an array
+
+if (embedKeyz===null) {
+    embedKeyz = [] //makes sure we only create an empty array if nothing is there
+}
+
+
+
+//function to check if video is embeddable (this isn't working but not sure why. This value might be deprecated)
+
+// async function isEmbeddable(videoID) {
+//     var isEmbeddable
+//     console.log(videoID)
+//     var embedURL = `https://www.googleapis.com/youtube/v3/videos?part=status&id=${videoID}&key=${youTubeAPIKey}`
+//     await fetch(embedURL) //returns response
+//     .then(function (response) {
+//         return response.json()
+    
+//     }) .then(function (data) {
+
+//         console.log(data)
+//         if (data.items[0].status.embeddable) {
+//             isEmbeddable = true
+//         } else {
+//             isEmbeddable = false
+//         } //will return true or false
+//     })
+//     console.log(isEmbeddable)
+//     return isEmbeddable
+// }
 
 // function to fetch youtube api
+
+let titles = {} //globally defining an object to be used for local storage
+
 
 function getVideo(search) {
     console.log(search)
@@ -50,45 +87,32 @@ function getVideo(search) {
         return response.json()
     
     }) .then(function (data) {
-
         console.log(data)
-            //var thumbNail = document.createElement('img')
-            for (var i = 0; i < data.items.length; i++) {
-                //Creating a h3 element and a p element
-                var nameOfVideo = document.createElement('h6');
-                var thumbNail = document.createElement('img')
-        
-                //Setting the text of the h3 element and p element.
-                nameOfVideo.textContent = data.items[i].snippet.title
-                thumbNail.src = data.items[i].snippet.thumbnails.default.url
-                var embedKey = data.items[i].id.videoId
-                console.log(embedKey)
-                videoSearchResults.appendChild(nameOfVideo)
-                videoSearchResults.appendChild(thumbNail)
+      
+        for (var i = 0; i < data.items.length; i++) {
+            var embedKey = data.items[i].id.videoId
+            //Creating a h3 element and a p element
+            var nameOfVideo = document.createElement('h6');
+            var thumbNail = document.createElement('img')
+                    
+            //Setting the text of the h3 element and p element.
+            nameOfVideo.textContent = data.items[i].snippet.title
+            console.log(nameOfVideo.textContent)
+            thumbNail.src = data.items[i].snippet.thumbnails.default.url
+            videoSearchResults.appendChild(nameOfVideo)
+            videoSearchResults.appendChild(thumbNail)
 
-                thumbNail.addEventListener("click", gifClickHandler) //adds event listener to each gif
-                thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
-                console.log(gif.getAttribute('data-video')) 
+            titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
+            thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
+            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+
+
+            }              
+    })
+}
                 
-        
-                //Appending the dynamically generated html to the div associated with the id="users"
-                //Append will attach the element as the bottom most child.
-
-                //local storage - push value of chosen video onto array
-                
-                
-              }
-        
-
-
-
-        })
-                
-
- }
-
  // function to fetch gif api
- var gifData = {};
+ var gifData = {}; //something Jason recommended to make finding data in object easier
 
  function getGif(gif) {
     console.log(gif)
@@ -107,58 +131,109 @@ function getVideo(search) {
                 //Creating a h3 element and a p element
                 var gif = document.createElement('img');
                 //Setting the text of the h3 element and p element.
-                console.log()
                 gif.src = gifData.data[i].images.fixed_height_small.url
-                console.log(gif.src)
                 gifSearchResults.appendChild(gif)
                 gif.setAttribute('data-gif', gif.src) //creates a data attribute to url of gif
-                console.log(gif.getAttribute('data-gif')) 
                 gif.addEventListener("click", gifClickHandler) //adds event listener to each gif
                 
-                
-        
-                //Appending the dynamically generated html to the div associated with the id="users"
-                //Append will attach the element as the bottom most child.
-                
               }
-            //local storage - push value of chosen gif onto array
-
-        
-
-
-
-        })
-                
-
+        })             
  }
 
+ ///event listeners
+
+ var pickedGif
+
  var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
-    if (event.target = document.querySelector('img')) { //probably don't need this if but will keep it here for now
-        console.log("Gif clicked")
-        pickedGif = event.target.getAttribute('data-gif');
-        console.log(pickedGif)
-    } 
-  };
+    console.log("Gif clicked")
+    pickedGif = ''
+    gifInVideo.removeAttribute('src')
+    pickedGif = event.target.getAttribute('data-gif');
+    console.log(pickedGif)
+    gifInVideo.src = pickedGif 
+}
+
+  var pickedVideo
 
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
-    if (event.target = document.querySelector('img')) {
-        console.log("Video clicked")
-        var pickedVideo = event.target.getAttribute('data-video');
-        console.log(pickedVideo)
-    } 
-  };
+    console.log("Video clicked")
+    pickedVideo = '' //clears out variable
+    backgroundSound.removeAttribute('src') //when you click it a second time
+    //console.log(backgroundSound.src)
+    pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+    console.log(pickedVideo)
+    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1` 
+    }
+
+    //embeddable might be deprecated, actually not entirely certain why this code isn't working
+    // if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
+    //         console.log("working")
+    //         renderVideo(pickedGif, pickedVideo)
+    // } else {
+    //     videoErrorMessage.textContent = "Sorry, this video is not embeddable. Please choose another one"
+    //     videoErrorMessage.classList.add("red") //text color red
+    // }
 
 
-//create another function that takes parameters pickedGif and pickedVideo, which will render video
-//pickedGif and pickedVideo are data attributes
-function renderVideo(pickedGif, pickedVideo) {
-    //render gif
-    gifInVideo.src = pickedGif.dataset.gif //value of attribute, url of gif
-    console.log(gifInVideo.src)
-    //render video
-    backgroundSound
+//function to play video
+
+// global variable for the player
+var player;
+
+//this function gets called when API is ready to use
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player2', {
+        videoId: String(pickedGif),
+        //videoId: pickedVideo, //should play picked video
+        events: {
+          'onReady': onPlayerReady,
+          //'onStateChange': onPlayerStateChange
+        }
+    });
+  }
+
+function onPlayerReady(event) {
+
+    // bind events
+    var playButton = document.getElementById("play-button");
+ 
+    playButton.addEventListener("click", function() {
+        console.log('play button clicked')
+        player.playVideo();
+    });
+
+    var pauseButton = document.getElementById("pause-button");
+
+    pauseButton.addEventListener("click", function() {
+        console.log('pause button clicked')
+        player.pauseVideo();
+    });
+
+    var stopButton = document.getElementById("stop-button");
+   
+    stopButton.addEventListener("click", function() {
+        console.log('stop button clicked')
+        player.stopVideo();
+    });
+
 }
- //https://coding-boot-camp.github.io/full-stack/apis/how-to-use-api-keys
+
+// Inject YouTube API script
+//some websites recommend loading the player api instead
+// var tag = document.createElement('script');
+// tag.src = "https://www.youtube.com/player_api";
+// var firstScriptTag = document.getElementsByTagName('script')[0];
+// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+//The window.postMessage() method safely enables cross-origin 
+//communication between Window objects; e.g., between a page and a
+// pop-up that it spawned, or between a page and an iframe embedded 
+//within it.
+
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
  //function for search bar and calls function to get video
 
@@ -190,31 +265,65 @@ function gifSearchSubmit(event) {
     }
 }
 
-// create video local storage 
+// create video to save to local storage 
+
+var saveVideoError = document.createElement("h6")
+saveVideoError.innerHTML = ""
+saveVideoErrorMessage.appendChild(saveVideoError)
+
 function createVideo() {
-    //but at some point we also need to push chosen value onto these arrays in other functions
-    localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
-    localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
+    if (pickedVideo && pickedGif) {
+        console.log(titles[pickedVideo])
+        pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
+        pastGifPicks.push(pickedGif)
+        embedKeyz.push(pickedVideo)
+        localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
+        localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
+        localStorage.setItem("embedKeys", JSON.stringify(embedKeyz))
+        saveVideoError.innerHTML = "Success! You saved your creation!"
+    } else {
+        saveVideoError.innerHTML = "Sorry, you have to pick a Gif and a video to save your creation!"
+    }
+
 }
 
-//previous video button storage
+//previous video button to render storage
 function previousVideo() {
-    previousVideoResults.textContent = "Last 5 Videos"
-    previousVideoResults.classList.add("h5", ".text-primary")
-    var listOfVideos = document.createElement('ul') //creates box for list
+    console.log(titles)
+    previousVideoResults.textContent = "Last 5 Videos" //ask Ryna to add formatting
+    var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
-    for (i=0; i<5; i++) { //actually doesn't matter which array we use bc they should store same amount
+    for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
         if (pastGifPicks.length>5) {
           pastGifPicks.shift() //removes first element  
           pastVideoPicks.shift()
         }
-        var pastVideo = document.createElement('li')
-        pastVideo.classList.add("list-group-item")
-        pastVideo.addEventListener("click", buttonClickHandler)
-        pastVideo.textContent = histoire[i]
-        pastVideo.setAttribute('data-city', histoire[i])
-        console.log(pastVideo.getAttribute('data-city'))
-        listOfCities.appendChild(pastVideo)
+        var title = document.createElement('h6')
+        title.textContent = pastVideoPicks[i]
+        var pastGif = document.createElement('li') //creates a list element
+        var pastGifThumbnail = document.createElement('img')
+        pastGifThumbnail.addEventListener("click", renderPastVideo)
+        pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
+        pastGifThumbnail.setAttribute('data-video', embedKeyz[i]) //should store embed key
+        pastGifThumbnail.src = pastGifPicks[i]
+        pastGif.appendChild(title)
+        pastGif.appendChild(pastGifThumbnail)
+        listOfVideos.appendChild(pastGif) //this should put them next to each other
+        function renderPastVideo(event) {
+            //renders past video
+            pickedVideo = '' //clears out variable
+            backgroundSound.removeAttribute('src') //when you click it a second time
+            //console.log(backgroundSound.src)
+            pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+            console.log(pickedVideo)
+            backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
+            //renders past gif
+            pickedGif = ''
+            gifInVideo.removeAttribute('src')
+            pickedGif = event.target.getAttribute('data-gif');
+            console.log(pickedGif)
+            gifInVideo.src = pickedGif 
+        }
     }
 }
 
@@ -229,11 +338,11 @@ getGifBtn.addEventListener("submit", gifSearchSubmit)
 
 //event listener for create video button
 
-getCreateVideoBtn.addEventListener("submit",createVideo)
+getCreateVideoBtn.addEventListener("click",createVideo)
 
 //event listener for previous videos button
 
-getPreviousVideoBtn.addEventListener("submit",previousVideo)
+getPreviousVideoBtn.addEventListener("click",previousVideo)
 
 // put an attribute on search results and then do event.target to determine
 // which one, look at 6.21
@@ -241,3 +350,4 @@ getPreviousVideoBtn.addEventListener("submit",previousVideo)
 //going to have to embed youtube video in html
 //getting back html and have boiler plate
 //have a redirect
+

@@ -173,7 +173,7 @@ input {
     vertical-align: top;
 }
 
-.create-btn,
+.save-btn,
 .previous-btn
  {
     font-size: 1.3rem;
@@ -191,7 +191,7 @@ input {
     display: inline-block;
 }
 
-.create-btn:hover,
+.save-btn:hover,
 .find-btn:hover,
 .gif-btn:hover,
 .previous-btn:hover
@@ -267,6 +267,7 @@ iframe {
     color: var(--light);
     min-height: 70px;
 }
+
 
 
 

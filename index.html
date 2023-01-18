@@ -5,6 +5,7 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
    <link href="link rel=" preconnect href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
@@ -41,33 +42,51 @@
       </form>
       <div id="gif-results"></div>
    </div>
+   <div class="buttons">
+		<button class="button" id="play-button">PLAY</button>
+		<button class="button" id="pause-button">PAUSE</button>
+		<button class="button" id="stop-button">STOP</button>
+	</div>
+   <div id="gif-image">
+      <img class="gif-for-video" width="100%" height="auto">
+   </div>
+
 
    <div class="video-container" width="100%" height="auto" max-width="560px" min-width="256px" display="block" margin="auto" frameborder="0">
-      <img class="gif-for-video" width="100%" height="auto">
-      <iframe class="final-video" width="100%" height="auto" max-width="560px" min-width="256px" display="block" margin="auto" frameborder="0"></iframe>
-      <form id="video-form" class="card-body">
-         <button id="create-video" type="submit" class="create-btn">Create Video</button>
-         <label class="form-label" for="Your-Videos"></label>
-      </form>
+    <form id="video-form" class="card-body">
+      <label class="form-label" for="Your-Videos"></label>
+      <iframe class="youtube-video" width="100%" height="auto" max-width="560px" min-width="256px" display="block" margin="auto" frameborder="0"></iframe>
+    </form>
    </div>
+   <div id="iframe-player">
+      <div id="player2"></div>
+   </div>
+   <!--changed name of everything to save button-->
+   <div id="save-video-button">
+      <button id="save-video" type="button" class="save-btn">Save Video</button>
+      <div id="save-error"></div>
+   </div>
+
 
    <div class=previous-video-container>
+      <h4>Click to see your previous videos</h4>
       <form id="previous-form" class="card-body">
          <label class="form-label" for="Previous Videos"></label>
-         <button id="previous-video" type="submit" class="previous-btn">Previous Videos</button>
+         <button id="previous-video" type="button" class="previous-btn">Previous Videos</button>
       </form>
       <div id="previous-results"></div>
-      <h4>Click to see your previous videos</h4>
    </div>
+   <div id="youtube-api"></div>
 
    <script src="./assets/js/script.js"></script>
+
 
    <footer class="page-footer white-text center indigo darken-4">
       <p>
          &copy; 2023 Awesome group Danielle, Ryan, and William.
       </p>
    </footer>
-
+<!--added footer class-->
 </body>
 
 </html>
