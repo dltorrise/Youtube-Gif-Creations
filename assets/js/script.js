@@ -104,8 +104,8 @@ function getVideo(search) {
 
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
-            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-
+            //thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+            thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
 
             }              
     })
@@ -158,12 +158,22 @@ function getVideo(search) {
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
     pickedVideo = '' //clears out variable
-    backgroundSound.removeAttribute('src') //when you click it a second time
+    //backgroundSound.removeAttribute('src') //when you click it a second time
     //console.log(backgroundSound.src)
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
-    backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
+    
+    //window.pickedVideo = pickedVideo //defines function globally
+    //pickedVideoQuestionMark()
+    //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
     }
+
+    // function pickedVideoQuestionMark() {
+    //     if (pickedVideo) {
+    //         console.log("yes, pickedVideo is defined globally")
+    //     }
+    // }
+//this works but it's still not defined
 
     //embeddable might be deprecated, actually not entirely certain why this code isn't working
     // if (isEmbeddable(pickedVideo) && (pickedGif)) { //runs embedkey into function
@@ -177,22 +187,31 @@ function getVideo(search) {
 
 //function to play video
 
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/player_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// var tag = document.createElement('script');
+// tag.src = "https://www.youtube.com/player_api";
+// var firstScriptTag = document.getElementsByTagName('script')[0];
+// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // Replace the 'ytplayer' element with an <iframe> and
 // YouTube player after the API code downloads.
 console.log(pickedVideo) //no clue why this is undefined
 var player;
-function onYouTubePlayerAPIReady() {
-  player = new YT.Player('player2', {
-    videoId: 'M7lc1UVf-VE',
-    enablejsapi: 1,
-    playervars: {controls: 0},
+
+//I know this function is working, I just don't know how to dynamically
+//add video ID and also add play and pause buttons
+function onYouTubePlayerAPIReady(pickedVideo) {
+  if (player) {
+    player.destroy()
+  }
+  player = new YT.Player('player', {
+    videoId: pickedVideo, //input is working, i think only problem now is that
+    //pickedVideo is undefined
+    //videoId: 'M7lc1UVf-VE',
+    playervars: {
+        controls: 0,
+        rel: 0
+    },
     loop: 0,
-    origin: 'https://www.youtube.com/',
 
 
   });
@@ -251,6 +270,7 @@ saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
 //I don't want to be able to save the exact two results twice but not
 //sure how to change that
+//maybe do like if pastVideoPicks.includes && pastGifPicks.includes
 function createVideo() {
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
