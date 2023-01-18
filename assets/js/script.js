@@ -97,11 +97,10 @@ function getVideo(search) {
             thumbNail.src = data.items[i].snippet.thumbnails.default.url
             videoSearchResults.appendChild(nameOfVideo)
             videoSearchResults.appendChild(thumbNail)
-
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
-            //thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-            thumbNail.setAttribute('onclick', 'onYouTubePlayerAPIReady(embedKey)') //for each list element it should call function with that specific embed key
+            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+            //thumbNail.setAttribute('onclick', 'onYouTubePlayerAPIReady(embedKey)') //for each list element it should call function with that specific embed key
             console.log(embedKey)
 
             }              
@@ -272,8 +271,8 @@ saveVideoErrorMessage.appendChild(saveVideoError)
 function createVideo() {
     for (i=0; i<pastGifPicks.length; i++) {
         if (pastGifPicks[i]===pickedGif && pastVideoPicks===pickedVideo) {
-            return
         }
+        //return
     }
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
@@ -312,7 +311,6 @@ function previousVideo() {
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
-        thisEmbedKey = embedKeyz[i]
         pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
         listOfVideos.appendChild(pastGif) //this should put them next to each other
         // function renderPastVideo(event) {
