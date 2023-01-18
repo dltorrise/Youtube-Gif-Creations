@@ -3,6 +3,8 @@
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
+//will have to swap giphy API key once deployed
+
 //DOM Elements
 
 var getVideoBtn = document.getElementById("video-form")
@@ -20,9 +22,6 @@ var previousVideoResults = document.getElementById("previous-results")
 var gifInVideo = document.getElementById("gif-for-video")
 var backgroundSound = document.getElementById("youtube-video")
 var saveVideoErrorMessage = document.getElementById("save-error")
-
-//var videoErrorMessage = document.getElementById("video-error")
-
 
 //variables
 
@@ -113,7 +112,7 @@ function getVideo(search) {
 }
                 
  // function to fetch gif api
- var gifData = {};
+ var gifData = {}; //something Jason recommended to make finding data in object easier
 
  function getGif(gif) {
     console.log(gif)
@@ -220,6 +219,7 @@ function onPlayerReady(event) {
 }
 
 // Inject YouTube API script
+//some websites recommend loading the player api instead
 // var tag = document.createElement('script');
 // tag.src = "https://www.youtube.com/player_api";
 // var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -265,10 +265,8 @@ function gifSearchSubmit(event) {
     }
 }
 
+// create video to save to local storage 
 
-
-
-// create video local storage 
 var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
@@ -289,13 +287,10 @@ function createVideo() {
 
 }
 
-
-//previous video button storage
+//previous video button to render storage
 function previousVideo() {
     console.log(titles)
-    previousVideoResults.textContent = "Last 5 Videos"
-    console.log("previous videos clicked")
-    //previousVideoResults.classList.add("h5", ".text-primary")
+    previousVideoResults.textContent = "Last 5 Videos" //ask Ryna to add formatting
     var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
     for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
