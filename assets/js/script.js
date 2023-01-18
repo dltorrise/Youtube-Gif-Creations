@@ -3,8 +3,8 @@
 //priorities
 //figure out why event.target isn't working the same
 //403 error
-//overlay gif
 //get SDK key from giphy
+//outlines for clicked
 
 //desires
 //volume button toggle
@@ -14,7 +14,6 @@
 //finishing up
 //ryan formatting
 //clean up code
-//error message about video playing
 //saving multiple of the same
 
 //https://developers.google.com/youtube/iframe_api_reference
@@ -86,7 +85,7 @@ function getVideo(search) {
     
     }) .then(function (data) {
         console.log(data)
-      
+        videoDoesntWork.innerHTML = '' // i want this error to clear everytime i search
         for (var i = 0; i < data.items.length; i++) {
             var embedKey = data.items[i].id.videoId
             //Creating a h3 element and a p element
@@ -174,13 +173,15 @@ var player;
 //I know this function is working, I just don't know how to dynamically
 //add video ID and also add play and pause buttons
 function onYouTubePlayerAPIReady(pickedVideo) {
+  videoDoesntWork.innerHTML = ''
+  console.log(pickedVideo)
   if (player) {
     player.destroy()
   }
   player = new YT.Player('player', {
-    //videoId: pickedVideo, //input is working, i think only problem now is that
+    videoId: pickedVideo, //input is working, i think only problem now is that
     //pickedVideo is undefined
-    videoId: 'M7lc1UVf-VE',
+    //videoId: 'M7lc1UVf-VE',
     events: {
         'onReady': onPlayerReady,
         'onError': showErrorMessage
@@ -191,8 +192,9 @@ function onYouTubePlayerAPIReady(pickedVideo) {
   });
 }
 
+var videoDoesntWork = document.createElement('h6')
+
 function showErrorMessage() {
-    var videoDoesntWork = document.createElement('h6')
     videoDoesntWork.innerHTML = "This video doesn't seem to be working. There is either an issue with your network or you picked a video that is not embeddable. Please pick another video or try again at another time" //this error message
     videoErrorMessage.appendChild(videoDoesntWork)
 }
@@ -310,28 +312,30 @@ function previousVideo() {
         title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
-        pastGifThumbnail.addEventListener("click", renderPastVideo)
+        // pastGifThumbnail.addEventListener("click", renderPastVideo)
         pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
         pastGifThumbnail.setAttribute('data-video', embedKeyz[i]) //should store embed key
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
+        pastGifThumbnail.setAttribute("onclick", onYouTubePlayerAPIReady(embedKeyz[i]))
         listOfVideos.appendChild(pastGif) //this should put them next to each other
-        function renderPastVideo(event) {
-            //renders past video
-            pickedVideo = '' //clears out variable
-            backgroundSound.removeAttribute('src') //when you click it a second time
-            //console.log(backgroundSound.src)
-            pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
-            console.log(pickedVideo)
-            backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
-            //renders past gif
-            pickedGif = ''
-            gifInVideo.removeAttribute('src')
-            pickedGif = event.target.getAttribute('data-gif');
-            console.log(pickedGif)
-            gifInVideo.src = pickedGif 
-        }
+        // function renderPastVideo(event) {
+        //     //renders past video
+
+        //     pickedVideo = '' //clears out variable
+        //     backgroundSound.removeAttribute('src') //when you click it a second time
+        //     //console.log(backgroundSound.src)
+        //     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+        //     console.log(pickedVideo)
+        //     backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
+        //     //renders past gif
+        //     pickedGif = ''
+        //     gifInVideo.removeAttribute('src')
+        //     pickedGif = event.target.getAttribute('data-gif');
+        //     console.log(pickedGif)
+        //     gifInVideo.src = pickedGif 
+        // }
     }
 }
 
