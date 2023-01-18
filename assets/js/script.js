@@ -6,6 +6,8 @@
 //get SDK key from giphy
 //outlines for clicked
 
+//gif overlay stuff is in css
+
 //desires
 //volume button toggle
 //speed up bottons toggle
@@ -88,11 +90,8 @@ function getVideo(search) {
         videoDoesntWork.innerHTML = '' // i want this error to clear everytime i search
         for (var i = 0; i < data.items.length; i++) {
             var embedKey = data.items[i].id.videoId
-            //Creating a h3 element and a p element
             var nameOfVideo = document.createElement('h6');
             var thumbNail = document.createElement('img')
-                    
-            //Setting the text of the h3 element and p element.
             nameOfVideo.textContent = data.items[i].snippet.title
             console.log(nameOfVideo.textContent)
             thumbNail.src = data.items[i].snippet.thumbnails.default.url
@@ -101,8 +100,8 @@ function getVideo(search) {
 
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
-            thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-            thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
+            //thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
+            thumbNail.setAttribute('onclick', 'onYouTubePlayerAPIReady(embedKey)') //for each list element it should call function with that specific embed key
             console.log(embedKey)
 
             }              
@@ -125,11 +124,8 @@ function getVideo(search) {
     }) .then(function (data) {
         gifData = data;
         console.log(data);
-            //var thumbNail = document.createElement('img')
             for (var i = 0; i < 5; i++) {
-                //Creating a h3 element and a p element
                 var gif = document.createElement('img');
-                //Setting the text of the h3 element and p element.
                 gif.src = gifData.data[i].images.fixed_height_small.url
                 gifSearchResults.appendChild(gif)
                 gif.setAttribute('data-gif', gif.src) //creates a data attribute to url of gif
@@ -179,16 +175,13 @@ function onYouTubePlayerAPIReady(pickedVideo) {
     player.destroy()
   }
   player = new YT.Player('player', {
-    videoId: pickedVideo, //input is working, i think only problem now is that
-    //pickedVideo is undefined
+    videoId: pickedVideo, //input is working, sort of
     //videoId: 'M7lc1UVf-VE',
     events: {
         'onReady': onPlayerReady,
         'onError': showErrorMessage
 
     }
-
-
   });
 }
 
@@ -253,18 +246,17 @@ function videoSearchSubmit(event) {
     }
 }
 
-// search bar for gif
+// search bar for gif, pretty much same as other function
 
 function gifSearchSubmit(event) {
     console.log('clicked')
-    event.preventDefault() //event is deprecated under some circumstances, so e is preferred
-    if (!gifInput.value) { //so that it doesn't do anything if there is no input
+    event.preventDefault() 
+    if (!gifInput.value) { 
         return
     } else {
-        var gif = gifInput.value.trim() //searchInput is an HTML element and so .value is input
-        //.trim bc white space can sometimes mess up databases
-        getGif(gif) //calls function with gif as parameter
-        gifInput.value = '' //clears search box by creating empty string
+        var gif = gifInput.value.trim()
+        getGif(gif) 
+        gifInput.value = ''
     }
 }
 
@@ -274,7 +266,9 @@ var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
 
-//trying to get it to return out of function
+//trying to get it to return out of function, so it doesn't save
+//multiple but haven't gotten that to work yet
+
 function createVideo() {
     for (i=0; i<pastGifPicks.length; i++) {
         if (pastGifPicks[i]===pickedGif && pastVideoPicks===pickedVideo) {
@@ -300,7 +294,7 @@ function createVideo() {
 //previous video button to render storage
 function previousVideo() {
     console.log(titles)
-    previousVideoResults.textContent = "Last 5 Videos" //ask Ryna to add formatting
+    previousVideoResults.textContent = "Last 5 Videos" 
     var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
     for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
@@ -318,7 +312,8 @@ function previousVideo() {
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
-        pastGifThumbnail.setAttribute("onclick", onYouTubePlayerAPIReady(embedKeyz[i]))
+        thisEmbedKey = embedKeyz[i]
+        pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
         listOfVideos.appendChild(pastGif) //this should put them next to each other
         // function renderPastVideo(event) {
         //     //renders past video
