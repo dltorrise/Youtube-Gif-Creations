@@ -48,15 +48,13 @@
 		<button class="button" id="stop-button">STOP</button>
 	</div>
    <div id="gif-image">
-      <img class="gif-for-video">
+      <img id="gif-for-video">
    </div>
-
-
-   <div class="video-container" width="100%" height="auto" max-width="560px" min-width="256px" display="block" margin="auto" frameborder="0">
-    <form id="video-form" class="card-body">
-      <label class="form-label" for="Your-Videos"></label>
-      <iframe class="youtube-video" width="100%" height="auto" max-width="560px" min-width="256px" display="block" margin="auto" frameborder="0"></iframe>
-    </form>
+   <div class="video-container">
+      <form id="video-form" class="card-body">
+         <iframe id="youtube-video"></iframe>
+         <label class="form-label" for="Your-Videos"></label>
+      </form>
    </div>
    <div id="iframe-player">
       <div id="player2"></div>
