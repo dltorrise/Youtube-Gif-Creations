@@ -59,7 +59,22 @@ body {
 
 #video-form {
     text-align: center;
+    position: relative;
 }
+
+iframe {
+    position: absolute;
+    z-index: 10;
+}
+
+#gif-for-video {
+    position: absolute;
+    z-index: 20;
+    left: 50px;
+    width: 90vw;
+    top:30px;
+}
+
 
 .form-label {
     font-size: 1.6rem;
@@ -140,6 +155,7 @@ input {
     opacity: 0.5;
 }
 
+
 #gif-results h6 {
     font-size: 1.2rem;
     width: 100%;
@@ -211,6 +227,7 @@ input {
     cursor: pointer;
 }
 
+
 /* video container */
 
 .video-container {
@@ -275,8 +292,13 @@ iframe {
     min-height: 70px;
 }
 
+iframe {
+    z-index: 1;
+}
 
-
+img {
+    z-index: 10;
+}
 
 
 
