@@ -37,7 +37,7 @@ body {
 .hero p {
     text-align: center;
     color: var(--light);
-    font-size: 1.2rem;
+    font-size: 1.8rem;
 }
 
 /* card-video */
@@ -67,6 +67,7 @@ iframe {
     position: absolute;
     z-index: 10;
 }
+
 
 #gif-for-video {
     position: absolute;
@@ -98,7 +99,7 @@ iframe {
     width: 100%;
     height: auto;
     max-width: 400px;
-    max-height: 150px;
+    max-height: 400px;
 }
 
 #video-results img:hover {
@@ -116,7 +117,7 @@ iframe {
     text-overflow: ellipsis;
     color: var(--light);
     min-height: 70px;
- }
+}
 
 /* card-gif*/
 
@@ -160,7 +161,6 @@ input {
     opacity: 0.5;
 }
 
-
 #gif-results h6 {
     font-size: 1.2rem;
     width: 100%;
@@ -172,13 +172,12 @@ input {
     color: var(--light);
     min-height: 70px;
 }
-/* added for big gifs */
+
 #gif-for-video {
-    width: 640px;
-    height: 360px;
+    position: absolute;
+    z-index: 20;
+    width: 1280px;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 /* buttons */
@@ -208,7 +207,7 @@ input {
     font-size: 1.3rem;
     text-decoration: none;
     padding: 14px 34px;
-    margin: 3;
+    margin-top: 20px;
     text-align: center;
     border-radius: var(--border-radius);
     color: var(--light);
@@ -232,10 +231,9 @@ input {
     cursor: pointer;
 }
 
-
 /* video container */
 
-.video-container {
+#video-container {
     width: 1280px;
     height: 720px;
     display: inline-block;
@@ -255,29 +253,49 @@ iframe {
     margin-right: auto;
 }
 
-/* create-form */
+/* save-error/video error */
 
-#create-form {
-    float: right;
-    padding: auto;
+#video-error-message h6 {
+    font-size: 1.6rem;
+    width: 100%;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light);
+    min-height: 70px;
+}
+
+#save-error h6 {
+    font-size: 1.6rem;
+    width: 100%;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light);
+    min-height: 70px;
 }
 
 /* previous-container/Local Storage*/
-/* updated styles for local storage */
+
 #previous-form {
     grid-area: form-area;
 }
 
 #previous-results {
     display: grid;
-    grid-template-areas:
-        "form-area video-area";
+    grid-auto-flow: row-reverse;
+    grid-template-columns: repeat(2, 1fr);
     grid-template-columns: 200px 1fr;
 }
 
 #previous-results img {
     width: 500px;
     height: 350px;
+
 }
 
 #previous-results img:hover {
@@ -286,7 +304,19 @@ iframe {
 }
 
 #previous-results h6 {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
+    width: 100%;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--light);
+    min-height: 70px;
+}
+
+ h4 {
+    font-size: 2.6rem;
     width: 100%;
     word-break: break-word;
     word-wrap: break-word;
@@ -298,10 +328,19 @@ iframe {
 }
 
 iframe {
-    z-index: 1;
+    width: 640px;
+    height: 360px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-img {
+li {
+    color: var(--light);
+
+}
+
+/*img {
     z-index: 10;
 }
 
