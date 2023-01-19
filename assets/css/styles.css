@@ -59,9 +59,9 @@ body {
 
 #video-form {
     text-align: center;
-   /* position: relative;*/
+    position: relative;
 }
-/*
+
 iframe {
     position: absolute;
     z-index: 10;
@@ -74,7 +74,7 @@ iframe {
     width: 90vw;
     top:30px;
 }
-*/
+
 
 .form-label {
     font-size: 1.6rem;

@@ -100,7 +100,7 @@ function getVideo(search) {
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-            //thumbNail.setAttribute('onclick', 'onYouTubePlayerAPIReady(embedKey)') //for each list element it should call function with that specific embed key
+            //thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
             console.log(embedKey)
 
             }              
@@ -156,6 +156,7 @@ function getVideo(search) {
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
     console.log(pickedVideo)
     //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
+    onYouTubePlayerAPIReady(pickedVideo)
     }
 
 
@@ -191,7 +192,11 @@ function showErrorMessage() {
     videoErrorMessage.appendChild(videoDoesntWork)
 }
 
+//not usually a network issue, could be country issue or deleted video
+
 function onPlayerReady(event) {
+
+    console.log(player.getPlayerState())
     controlsSection.classList.remove("hide") //shows buttons once video displays
     getCreateVideoBtn.classList.remove("hide")
     videoContainer.classList.remove("hide")
@@ -305,30 +310,31 @@ function previousVideo() {
         title.textContent = pastVideoPicks[i]
         var pastGif = document.createElement('li') //creates a list element
         var pastGifThumbnail = document.createElement('img')
-        // pastGifThumbnail.addEventListener("click", renderPastVideo)
+        pastGifThumbnail.addEventListener("click", renderPastVideo)
         pastGifThumbnail.setAttribute('data-gif', pastGifPicks[i])
         pastGifThumbnail.setAttribute('data-video', embedKeyz[i]) //should store embed key
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
-        pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
+        //pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
         listOfVideos.appendChild(pastGif) //this should put them next to each other
-        // function renderPastVideo(event) {
-        //     //renders past video
+        function renderPastVideo(event) {
+            //renders past video
 
-        //     pickedVideo = '' //clears out variable
-        //     backgroundSound.removeAttribute('src') //when you click it a second time
-        //     //console.log(backgroundSound.src)
-        //     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
-        //     console.log(pickedVideo)
-        //     backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
-        //     //renders past gif
-        //     pickedGif = ''
-        //     gifInVideo.removeAttribute('src')
-        //     pickedGif = event.target.getAttribute('data-gif');
-        //     console.log(pickedGif)
-        //     gifInVideo.src = pickedGif 
-        // }
+            pickedVideo = '' //clears out variable
+            //backgroundSound.removeAttribute('src') //when you click it a second time
+            //console.log(backgroundSound.src)
+            pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+            console.log(pickedVideo)
+            onYouTubePlayerAPIReady(pickedVideo)
+            //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
+            //renders past gif
+            pickedGif = ''
+            gifInVideo.removeAttribute('src')
+            pickedGif = event.target.getAttribute('data-gif');
+            console.log(pickedGif)
+            gifInVideo.src = pickedGif 
+        }
     }
 }
 
