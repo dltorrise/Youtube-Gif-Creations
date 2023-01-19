@@ -208,11 +208,11 @@ function onPlayerReady(event) {
         if (player.isMuted()) { //if it's muted, unmute it
             muteButton.innerHTML = ''
             player.unMute();
-            muteButton.innerHTML = 'UNMUTE'
+            muteButton.innerHTML = 'MUTE' //change button to mute
         } else { //if its unmuted, mute it
             muteButton.innerHTML = ''
             player.mute();
-            muteButton.innerHTML = 'MUTE'
+            muteButton.innerHTML = 'UNMUTE'
         }
     })
 
