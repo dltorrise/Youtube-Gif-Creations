@@ -1,12 +1,8 @@
 //API Keys
 
 //priorities
-//figure out why event.target isn't working the same
-//403 error
-//get SDK key from giphy
 //outlines for clicked
 
-//gif overlay stuff is in css
 
 //desires
 //volume button toggle
@@ -16,10 +12,7 @@
 //finishing up
 //ryan formatting
 //clean up code
-//saving multiple of the same
 
-//https://developers.google.com/youtube/iframe_api_reference
-//at approximately 44 minutes for help with toggle codes
 
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
@@ -100,7 +93,6 @@ function getVideo(search) {
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-            //thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
             console.log(embedKey)
 
             }              
@@ -140,8 +132,12 @@ function getVideo(search) {
 
  var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
     console.log("Gif clicked")
+    if (document.getElementById('gif-picked')) {
+        document.getElementById('gif-picked').removeAttribute('id','video-picked')
+    }
     pickedGif = ''
     gifInVideo.removeAttribute('src')
+    event.target.setAttribute('id', 'gif-picked')
     pickedGif = event.target.getAttribute('data-gif');
     console.log(pickedGif)
     gifInVideo.src = pickedGif 
@@ -151,11 +147,13 @@ function getVideo(search) {
  
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
+    if (document.getElementById('video-picked')) {
+        document.getElementById('video-picked').removeAttribute('id','video-picked')
+    }
     pickedVideo = '' //clears out variable
-    //backgroundSound.removeAttribute('src') //when you click it a second time
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+    event.target.setAttribute('id', 'video-picked')
     console.log(pickedVideo)
-    //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
     onYouTubePlayerAPIReady(pickedVideo)
     }
 
@@ -275,9 +273,11 @@ saveVideoErrorMessage.appendChild(saveVideoError)
 
 function createVideo() {
     for (i=0; i<pastGifPicks.length; i++) {
-        if (pastGifPicks[i]===pickedGif && pastVideoPicks===pickedVideo) {
+        if (pastGifPicks[i]===pickedGif && embedKeyz[i]===pickedVideo) {
+            saveVideoError.innerHTML = "You already saved this video! Check Previous Videos"
+            return
         }
-        //return
+        
     }
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
@@ -317,18 +317,13 @@ function previousVideo() {
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
-        //pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
         listOfVideos.appendChild(pastGif) //this should put them next to each other
         function renderPastVideo(event) {
             //renders past video
-
             pickedVideo = '' //clears out variable
-            //backgroundSound.removeAttribute('src') //when you click it a second time
-            //console.log(backgroundSound.src)
             pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
             console.log(pickedVideo)
             onYouTubePlayerAPIReady(pickedVideo)
-            //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
             //renders past gif
             pickedGif = ''
             gifInVideo.removeAttribute('src')
