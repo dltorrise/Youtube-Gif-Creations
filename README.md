@@ -49,7 +49,7 @@ Youtube Data API, Youtube Iframe API, and Giphy API
 
 One of the most challenging aspects of this project was getting the external play and pause buttons to work using the Iframe API. Watching [this video](https://www.youtube.com/watch?v=bHQqvYy5KYo) by Youtube Developers and reading the [documentation on Iframe Players](https://developers.google.com/youtube/iframe_api_reference) helped us finally wrap our heads around how to create a player object. 
 
-Here are some code snippets of the player objects and some functions attached to the built-in event listeners:
+Here are some code snippets of the player object and some functions attached to the built-in event listeners:
 
 ![A screenshot of code that creates the iframe player objects and built in event registration](./assets/images/code-snippet-1.png)
 
@@ -59,13 +59,13 @@ This code is specifically built-in functions to the Youtube Iframe Player API, i
 
 ## Development
 
-The cool thing about developing this project is that we learned in the branch testing-branch a good way to develop websites. It's best to lay everything out so that you can simulataneously check if different parts of the code are working. It's better that the page has a development phase where everything is layed out for the purposes of development as opposed to emphasizing aesthetics or what the product is supposed to look like.
+The cool thing about developing this project is that we learned in the branch testing-branch a good way to develop websites. It's best to lay everything out so that you can simulataneously check if different parts of the code are working. It's better that the page has a development phase where everything is layed out for the purposes of development as opposed to emphasizing aesthetics or what the product is supposed to look like. Aesthetics can come last after all the functionality is minimumally viable. 
 
 ![A screenshot of the website still in development](./assets/images/development.png)
 
 ## Additional Functionalities
 
-Along with the basic functionalities, there are also several error messages to indicate if you selected something wrong.
+Along with the basic functionalities, there are also several error messages to indicate if you selected something wrong. This is meant to add to the user experience, so they won't experience as much confusion or frustration if something is not working properly. Thankfully, the Iframe API has a built-in event listener (onError) solely for this purpose. 
 
 ## Future Development
 
