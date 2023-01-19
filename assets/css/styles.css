@@ -167,6 +167,14 @@ input {
     color: var(--light);
     min-height: 70px;
 }
+/* added for big gifs */
+#gif-for-video {
+    width: 640px;
+    height: 360px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 /* buttons */
 
@@ -222,9 +230,9 @@ input {
 
 /* video container */
 
-/*.video-container {
-    width: 600px;
-    height: 400px;
+.video-container {
+    width: 1280px;
+    height: 720px;
     display: inline-block;
     background-color: var(--purple);
     border: 1px solid #ccc;
@@ -235,12 +243,11 @@ input {
 }
 
 iframe {
-    width: 200px;
-    height: 200px;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    border: none;
+    width: 640px;
+    height: 360px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* create-form */
@@ -250,8 +257,8 @@ iframe {
     padding: auto;
 }
 
-/* previous-container*/
-
+/* previous-container/Local Storage*/
+/* updated styles for local storage */
 #previous-form {
     grid-area: form-area;
 }
@@ -264,8 +271,8 @@ iframe {
 }
 
 #previous-results img {
-    width: 100%;
-    height: auto;
+    width: 500px;
+    height: 350px;
 }
 
 #previous-results img:hover {
@@ -292,5 +299,6 @@ iframe {
 img {
     z-index: 10;
 }
+
 
 
