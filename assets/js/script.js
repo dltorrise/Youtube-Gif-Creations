@@ -298,7 +298,8 @@ function createVideo() {
 //previous video button to render storage
 function previousVideo() {
     console.log(titles)
-    previousVideoResults.textContent = "Last 5 Videos" 
+    previousVideoResults.textContent = "Your Saved Videos" 
+    previousVideoResults.setAttribute("style", "color:white; font-size:1.2rem")
     var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
     for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
