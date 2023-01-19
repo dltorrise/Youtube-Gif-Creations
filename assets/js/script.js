@@ -1,53 +1,43 @@
-//API Keys
-
-//priorities
-//figure out why event.target isn't working the same
-//403 error
-//get SDK key from giphy
-//outlines for clicked
-
-//gif overlay stuff is in css
 
 //desires
 //volume button toggle
 //speed up bottons toggle
 //video length toggle
 
-//finishing up
-//ryan formatting
-//clean up code
-//saving multiple of the same
-
-//https://developers.google.com/youtube/iframe_api_reference
-//at approximately 44 minutes for help with toggle codes
+//API Keys
 
 youTubeAPIKey = "AIzaSyAhj_Zz-hBzSR0xyA5VtmdLDG6Of19XaCA"
 giphyAPIKey = "Tz8BYCiyjjd3A55xytpungY3SGFNZkod"
 
-//will have to swap giphy API key once deployed
-
 //DOM Elements
 
+//buttons
 var getVideoBtn = document.getElementById("video-form")
 var getGifBtn = document.getElementById("gif-form")
 var getCreateVideoBtn = document.getElementById("save-video")
 var getPreviousVideoBtn = document.getElementById("previous-video")
 
+//inputs
 var videoInput = document.getElementById("video")
 var gifInput = document.getElementById("gif")
 
+//results
 var videoSearchResults = document.getElementById("video-results")
 var gifSearchResults = document.getElementById("gif-results")
 var previousVideoResults = document.getElementById("previous-results")
 
-var gifInVideo = document.getElementById("gif-for-video")
-//var backgroundSound = document.getElementById("youtube-video")
-var saveVideoErrorMessage = document.getElementById("save-error")
-var controlsSection = document.getElementById("controls")
+//video container
 var videoContainer = document.getElementById("video-container")
+var gifInVideo = document.getElementById("gif-for-video")
+var controlsSection = document.getElementById("controls")
+
+//error messages
+var saveVideoErrorMessage = document.getElementById("save-error")
 var videoErrorMessage = document.getElementById("video-error-message")
 
-//variables
+//general variables
+
+let titles = {} //globally defining an object to be used for local storage
 
 let pastGifPicks = JSON.parse(localStorage.getItem("gifPicks")) //makes an array
 
@@ -73,9 +63,6 @@ if (embedKeyz===null) {
 
 // function to fetch youtube api
 
-let titles = {} //globally defining an object to be used for local storage
-
-
 function getVideo(search) {
     console.log(search)
     videoSearchResults.textContent = '' //clear out all text content
@@ -100,9 +87,7 @@ function getVideo(search) {
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
-            //thumbNail.setAttribute('onclick', onYouTubePlayerAPIReady(embedKey)) //for each list element it should call function with that specific embed key
             console.log(embedKey)
-
             }              
     })
 }
@@ -140,8 +125,12 @@ function getVideo(search) {
 
  var gifClickHandler = function (event) { //only purpose of this is to define variable for gif
     console.log("Gif clicked")
+    if (document.getElementById('gif-picked')) {
+        document.getElementById('gif-picked').removeAttribute('id','video-picked')
+    }
     pickedGif = ''
     gifInVideo.removeAttribute('src')
+    event.target.setAttribute('id', 'gif-picked')
     pickedGif = event.target.getAttribute('data-gif');
     console.log(pickedGif)
     gifInVideo.src = pickedGif 
@@ -151,11 +140,13 @@ function getVideo(search) {
  
   var videoClickHandler = function (event) { //only purpose of this is to define pickedVideo
     console.log("Video clicked")
+    if (document.getElementById('video-picked')) {
+        document.getElementById('video-picked').removeAttribute('id','video-picked')
+    }
     pickedVideo = '' //clears out variable
-    //backgroundSound.removeAttribute('src') //when you click it a second time
     pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
+    event.target.setAttribute('id', 'video-picked')
     console.log(pickedVideo)
-    //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1&controls=0` 
     onYouTubePlayerAPIReady(pickedVideo)
     }
 
@@ -176,11 +167,10 @@ function onYouTubePlayerAPIReady(pickedVideo) {
   }
   player = new YT.Player('player', {
     videoId: pickedVideo, //input is working, sort of
-    //videoId: 'M7lc1UVf-VE',
+    //videoId: 'M7lc1UVf-VE', //for testing purposes
     events: {
         'onReady': onPlayerReady,
         'onError': showErrorMessage
-
     }
   });
 }
@@ -188,7 +178,7 @@ function onYouTubePlayerAPIReady(pickedVideo) {
 var videoDoesntWork = document.createElement('h6')
 
 function showErrorMessage() {
-    videoDoesntWork.innerHTML = "This video doesn't seem to be working. There is either an issue with your network or you picked a video that is not embeddable. Please pick another video or try again at another time" //this error message
+    videoDoesntWork.innerHTML = "This video doesn't seem to be working. You may have picked a video that is restricted, not embeddable, or doesn't exist anymore. Please pick another video or try again at another time" //this error message
     videoErrorMessage.appendChild(videoDoesntWork)
 }
 
@@ -218,11 +208,11 @@ function onPlayerReady(event) {
         if (player.isMuted()) { //if it's muted, unmute it
             muteButton.innerHTML = ''
             player.unMute();
-            muteButton.innerHTML = 'UNMUTE'
+            muteButton.innerHTML = 'MUTE' //change button to mute
         } else { //if its unmuted, mute it
             muteButton.innerHTML = ''
             player.mute();
-            muteButton.innerHTML = 'MUTE'
+            muteButton.innerHTML = 'UNMUTE'
         }
     })
 
@@ -270,14 +260,14 @@ var saveVideoError = document.createElement("h6")
 saveVideoError.innerHTML = ""
 saveVideoErrorMessage.appendChild(saveVideoError)
 
-//trying to get it to return out of function, so it doesn't save
-//multiple but haven't gotten that to work yet
+//This is for the Save video button
 
 function createVideo() {
     for (i=0; i<pastGifPicks.length; i++) {
-        if (pastGifPicks[i]===pickedGif && pastVideoPicks===pickedVideo) {
-        }
-        //return
+        if (pastGifPicks[i]===pickedGif && embedKeyz[i]===pickedVideo) {
+            saveVideoError.innerHTML = "You already saved this video! Check Previous Videos."
+            return
+        }      
     }
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
@@ -293,7 +283,6 @@ function createVideo() {
     }
 
 }
-
 
 //previous video button to render storage
 function previousVideo() {
@@ -317,18 +306,13 @@ function previousVideo() {
         pastGifThumbnail.src = pastGifPicks[i]
         pastGif.appendChild(title)
         pastGif.appendChild(pastGifThumbnail)
-        //pastGifThumbnail.setAttribute("onclick", "onYouTubePlayerAPIReady('thisEmbedKey'])")
         listOfVideos.appendChild(pastGif) //this should put them next to each other
         function renderPastVideo(event) {
             //renders past video
-
             pickedVideo = '' //clears out variable
-            //backgroundSound.removeAttribute('src') //when you click it a second time
-            //console.log(backgroundSound.src)
             pickedVideo = event.target.getAttribute('data-video'); //embed key of video you pick
             console.log(pickedVideo)
             onYouTubePlayerAPIReady(pickedVideo)
-            //backgroundSound.src = `https://www.youtube.com/embed/${pickedVideo}?enablejsapi=1`
             //renders past gif
             pickedGif = ''
             gifInVideo.removeAttribute('src')
@@ -342,7 +326,6 @@ function previousVideo() {
 //event listener for video button 
 
 getVideoBtn.addEventListener("submit", videoSearchSubmit) //button inside of form needs to be submit
-
 
 //event listener for gif button
 

@@ -62,9 +62,24 @@ body {
     position: relative;
 }
 
+
 iframe {
     position: absolute;
     z-index: 10;
+}
+
+
+#gif-for-video {
+    position: absolute;
+    z-index: 20;
+    left: 50px;
+    width: 90vw;
+    top:30px;
+}
+
+#gif-picked,
+#video-picked {
+    outline: thick solid green;
 }
 
 .form-label {
