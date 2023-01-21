@@ -76,18 +76,20 @@ function getVideo(search) {
         console.log(data)
         videoDoesntWork.innerHTML = '' // i want this error to clear everytime i search
         for (var i = 0; i < data.items.length; i++) {
+            var searchResultsDiv = document.createElement('div')
             var embedKey = data.items[i].id.videoId
             var nameOfVideo = document.createElement('h6');
             var thumbNail = document.createElement('img')
             nameOfVideo.textContent = data.items[i].snippet.title
             console.log(nameOfVideo.textContent)
             thumbNail.src = data.items[i].snippet.thumbnails.default.url
-            videoSearchResults.appendChild(nameOfVideo)
-            videoSearchResults.appendChild(thumbNail)
+            searchResultsDiv.appendChild(nameOfVideo)
+            searchResultsDiv.appendChild(thumbNail)
             titles[embedKey] = nameOfVideo.textContent //theoretically for each i, this should push the title onto array
             thumbNail.setAttribute('data-video', embedKey) //creates a data attribute with nameOfVideo but really I should be using whatever goes in iframe
             thumbNail.addEventListener("click", videoClickHandler) //adds event listener to each gif
             console.log(embedKey)
+            videoSearchResults.appendChild(searchResultsDiv)
             }              
     })
 }
@@ -272,8 +274,8 @@ function createVideo() {
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
         pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
-        pastGifPicks.push(pickedGif)
-        embedKeyz.push(pickedVideo)
+        pastGifPicks.unshift(pickedGif)
+        embedKeyz.unshift(pickedVideo)
         localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))
         localStorage.setItem("gifPicks", JSON.stringify(pastGifPicks))
         localStorage.setItem("embedKeys", JSON.stringify(embedKeyz))
@@ -286,15 +288,18 @@ function createVideo() {
 
 //previous video button to render storage
 function previousVideo() {
+    previousVideoResults.textContent = ''
     console.log(titles)
-    previousVideoResults.textContent = "Your Saved Videos" 
+    if (!pastGifPicks.length>0) {
+        previousVideoResults.textContent = "You don't have any saved videos!"
+    }
     previousVideoResults.setAttribute("style", "color:white; font-size:1.2rem")
     var listOfVideos = document.createElement('ol') //creates box for list
     previousVideoResults.appendChild(listOfVideos) //appends it to search container
     for (i=0; i<pastGifPicks.length; i++) { //actually doesn't matter which array we use bc they should store same amount
         if (pastGifPicks.length>5) {
-          pastGifPicks.shift() //removes first element  
-          pastVideoPicks.shift()
+          pastGifPicks.pop() //removes first element  
+          pastVideoPicks.pop()
         }
         var title = document.createElement('h6')
         title.textContent = pastVideoPicks[i]
