@@ -273,7 +273,7 @@ function createVideo() {
     }
     if (pickedVideo && pickedGif) {
         console.log(titles[pickedVideo])
-        pastVideoPicks.push(titles[pickedVideo]) //should return the name of the video
+        pastVideoPicks.unshift(titles[pickedVideo]) //should return the name of the video
         pastGifPicks.unshift(pickedGif)
         embedKeyz.unshift(pickedVideo)
         localStorage.setItem("videoPicks", JSON.stringify(pastVideoPicks))

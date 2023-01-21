@@ -95,23 +95,7 @@ iframe {
     height: auto !important;
 }
 
-/*
-#video-results {
-    text-align: center;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 1%;
-    flex-wrap: wrap;
-    justify-content: center;
-}
 
-#video-results img {
-    width: 100%;
-    height: auto;
-    max-width: 400px;
-    max-height: 400px;
-}
-*/
 #video-results img:hover {
     cursor: pointer;
     opacity: 0.5;
